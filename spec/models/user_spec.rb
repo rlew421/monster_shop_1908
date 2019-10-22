@@ -20,20 +20,11 @@ describe User do
       expect(user.default?).to be_truthy
     end
 
-    it 'can be created as an admin' do
-      user = User.create(name: 'Ross', address: '56 HairGel Ave', city: 'Las Vegas', state: 'Nevada', zip: '65041', email: 'dinosaurs_rule@gmail.com', password: 'rachel', role: 3)
-
-      expect(user.role).to eq('admin')
-      expect(user.admin?).to be_truthy
-
-    end
-
     it 'can be created as a merchant employee' do
       user = User.create(name: 'Joey', address: '76 Pizza Place', city: 'Brooklyn', state: 'New York', zip: '10231', email: 'estelles_best_actor@gmail.com', password: 'letseat', role: 1)
 
       expect(user.role).to eq('merchant_employee')
       expect(user.merchant_employee?).to be_truthy
-
     end
 
     it 'can be created as a merchant admin' do
@@ -41,7 +32,13 @@ describe User do
 
       expect(user.role).to eq('merchant_admin')
       expect(user.merchant_admin?).to be_truthy
+    end
 
+    it 'can be created as an admin' do
+      user = User.create(name: 'Ross', address: '56 HairGel Ave', city: 'Las Vegas', state: 'Nevada', zip: '65041', email: 'dinosaurs_rule@gmail.com', password: 'rachel', role: 3)
+
+      expect(user.role).to eq('admin')
+      expect(user.admin?).to be_truthy
     end
   end
 end

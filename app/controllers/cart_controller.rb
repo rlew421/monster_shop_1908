@@ -1,4 +1,10 @@
 class CartController < ApplicationController
+  before_action :not_admin
+
+  def not_admin
+    render file: "/public/404" if current_admin?
+  end
+
   def add_item
     item = Item.find(params[:item_id])
     cart.add_item(item.id.to_s)
