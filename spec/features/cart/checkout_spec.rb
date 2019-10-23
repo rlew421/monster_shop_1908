@@ -23,9 +23,19 @@ RSpec.describe 'Cart show' do
 
       expect(page).to have_link("Checkout")
 
-      click_on "Checkout"
+    end
+    it 'User can checkout if they are logged in' do
+      allow_any_instance
+      visit "/cart"
+      click__link "Checkout"
 
       expect(current_path).to eq("/orders/new")
+    end
+
+    it 'user cannot checkout if they are not logged in' do
+      visit '/cart'
+
+
     end
   end
 
@@ -36,4 +46,5 @@ RSpec.describe 'Cart show' do
       expect(page).to_not have_link("Checkout")
     end
   end
+
 end
