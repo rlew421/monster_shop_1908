@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       redirect_to "/merchant/#{current_user.id}"
     elsif current_user
       flash[:notice] = 'You are already logged in.'
-      redirect_to '/profile'
+      redirect_to "/profile/#{current_user.id}"
     end
   end
 
