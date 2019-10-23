@@ -12,12 +12,11 @@ describe 'Login' do
 
       click_link 'Login'
 
-
       fill_in :email, with: @user.email
       fill_in :password, with: @user.password
       click_button 'Log In'
 
-      expect(current_path).to eq('/profile')
+      expect(current_path).to eq("/profile/#{@user.id}")
       expect(page).to have_content('Welcome, Patti! You are logged in.')
       expect(page).to have_content('Address: 953 Sunshine Ave')
       expect(page).to have_content('City: Honolulu')
@@ -43,7 +42,7 @@ describe 'Login' do
 
       visit '/login'
 
-      expect(current_path).to eq('/profile')
+      expect(current_path).to eq("/profile/#{@user.id}")
       expect(page).to have_content('You are already logged in.')
     end
   end

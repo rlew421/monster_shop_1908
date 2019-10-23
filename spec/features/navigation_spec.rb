@@ -4,6 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Site Navigation' do
   describe 'As a Visitor.' do
     it "I see a nav bar with links to all pages" do
+      user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
       visit '/merchants'
 
       within 'nav' do
@@ -64,15 +65,15 @@ RSpec.describe 'Site Navigation' do
       visit '/admin/users'
       expect(page).to have_content("The page you were looking for doesn't exist.")
 
-      visit '/profile'
+      visit '/profile/1'
       expect(page).to have_content("The page you were looking for doesn't exist.")
     end
   end
 
   describe 'As a User.' do
     before :each do
-      user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+      @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
 
     it 'I see the navbar with links with profile and Log Out, not login or register' do
@@ -90,7 +91,7 @@ RSpec.describe 'Site Navigation' do
         expect(page).to_not have_content('Register')
 
         click_link 'Profile'
-        expect(current_path).to eq('/profile')
+        expect(current_path).to eq("/profile/#{@user.id}")
         click_link 'Log Out'
         expect(current_path).to eq('/')
       end

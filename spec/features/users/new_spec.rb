@@ -20,7 +20,9 @@ describe 'Register' do
 
     click_button 'Complete Registration'
 
-    expect(current_path).to eq('/profile')
+    new_user = User.last
+
+    expect(current_path).to eq("/profile/#{new_user.id}")
     expect(page).to have_content('You have registered successfully! You are now logged in as Marcel.')
     expect(page).to have_content('Hello, Marcel!')
     expect(page).to have_content('Address: 56 Jungle Lane')
