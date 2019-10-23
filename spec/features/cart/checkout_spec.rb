@@ -25,18 +25,14 @@ RSpec.describe 'Cart show' do
 
     end
     it 'User can checkout if they are logged in' do
-      allow_any_instance
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
       visit "/cart"
-      click__link "Checkout"
+      click_link "Checkout"
 
       expect(current_path).to eq("/orders/new")
     end
 
-    it 'user cannot checkout if they are not logged in' do
-      visit '/cart'
-
-
-    end
   end
 
   describe 'When I havent added items to my cart' do
