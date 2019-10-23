@@ -48,8 +48,9 @@
   <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
   <% if !current_user %>
     <h4>You must  <%= link_to 'login', '/login' %> or <%= link_to 'register', '/register' %>  to check out.</h4>
+  <% else %>
+    <p><%= link_to "Checkout", "/orders/new", method: :get %></p>
   <% end %>
-  <p><%= link_to "Checkout", "/orders/new", method: :get %></p>
 <% else %>
   <h3 align= "center">Cart is currently empty</h3>
 <% end %>
