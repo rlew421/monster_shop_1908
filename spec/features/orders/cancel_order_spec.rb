@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe 'cancel order' do
   describe 'from order show page' do
-    it 'displays cancel link if order status is pending' do
+    it 'can cancel if order status is pending' do
       visit '/'
       @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
       click_link 'Login'
@@ -36,7 +36,7 @@ describe 'cancel order' do
 
       tire.reload
       chain.reload
-      visit "/orders/#{order.id}"
+      visit "/profile/orders/#{order.id}"
 
       expect(page).to have_link('Cancel Order')
       expect(order.status).to eq('pending')
@@ -54,7 +54,26 @@ describe 'cancel order' do
       expect(order.status).to eq('cancelled')
       expect(tire.inventory).to eq(12)
       expect(chain.inventory).to eq(5)
+    end
+    it 'cannot cancel if status is not pending' do
+      visit '/'
+      @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
+      click_link 'Login'
 
+      order = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: "packaged")
+
+      visit "/profile/orders/#{order.id}"
+      expect(page).to_not have_link('Cancel Order')
+
+      order_2 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: "shipped")
+
+      visit "/profile/orders/#{order_2.id}"
+      expect(page).to_not have_link('Cancel Order')
+
+      order_3 = @user.orders.create!(name: 'Meg', address: '123 Stang St', city: 'Hershey', state: 'PA', zip: 80218, status: "cancelled")
+
+      visit "/profile/orders/#{order_3.id}"
+      expect(page).to_not have_link('Cancel Order')
     end
   end
 end

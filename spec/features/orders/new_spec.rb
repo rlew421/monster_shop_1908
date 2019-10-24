@@ -87,7 +87,7 @@ RSpec.describe("New Order Page") do
 
       new_order = Order.last
 
-      expect(current_path).to eq("/profile/orders")
+      expect(current_path).to eq("/profile/orders/#{new_order.id}")
       expect(page).to have_link('Cart: 0')
       expect(page).to have_content('Your order has been placed!')
   end
