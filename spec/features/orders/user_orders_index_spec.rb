@@ -32,8 +32,8 @@ describe 'As a registered user I am sent to my orders page after creating an ord
 
     within "#orders-#{order_1.id}" do
       expect(page).to have_content("Order ID: #{order_1.id}")
-      expect(page).to have_content('Creation Date:')
-      expect(page).to have_content('Last Updated:')
+      expect(page).to have_content("Creation Date: #{order_1.created_at.to_formatted_s(:long_ordinal)}")
+      expect(page).to have_content("Last Updated: #{order_1.updated_at.to_formatted_s(:long_ordinal)}")
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Number of Items: 2')
       expect(page).to have_content('Grand Total: $225.05')
@@ -41,8 +41,8 @@ describe 'As a registered user I am sent to my orders page after creating an ord
 
     within "#orders-#{order_2.id}" do
       expect(page).to have_content("Order ID: #{order_2.id}")
-      expect(page).to have_content('Creation Date:')
-      expect(page).to have_content('Last Updated:')
+      expect(page).to have_content("Creation Date: #{order_2.created_at.to_formatted_s(:long_ordinal)}")
+      expect(page).to have_content("Last Updated: #{order_2.updated_at.to_formatted_s(:long_ordinal)}")
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Number of Items: 3')
       expect(page).to have_content('Grand Total: $675.05')
@@ -50,8 +50,8 @@ describe 'As a registered user I am sent to my orders page after creating an ord
 
     within "#orders-#{order_3.id}" do
       expect(page).to have_content("Order ID: #{order_3.id}")
-      expect(page).to have_content('Creation Date:')
-      expect(page).to have_content('Last Updated:')
+      expect(page).to have_content("Creation Date: #{order_3.created_at.to_formatted_s(:long_ordinal)}")
+      expect(page).to have_content("Last Updated: #{order_3.updated_at.to_formatted_s(:long_ordinal)}")
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Number of Items: 1')
       expect(page).to have_content('Grand Total: $450.00')
