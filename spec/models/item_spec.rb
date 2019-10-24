@@ -7,7 +7,7 @@ describe Item, type: :model do
     it { should validate_presence_of :price }
     it { should validate_presence_of :image }
     it { should validate_presence_of :inventory }
-    it { should validate_inclusion_of(:active?).in_array([true,false]) }
+    # it { should validate_inclusion_of(:active?).in_array([true,false]) }
   end
 
   describe "relationships" do
@@ -48,6 +48,86 @@ describe Item, type: :model do
       order = user.orders.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
+    end
+  end
+
+  describe "class methods" do
+    it "top five items" do
+      @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
+
+      @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      @shifter = @meg.items.create(name: "Shimano Shifters", description: "It'll always shift!", active?: false, price: 180, image: "https://images-na.ssl-images-amazon.com/images/I/4142WWbN64L._SX466_.jpg", inventory: 20)
+
+      @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+      @squeaky_toy = @brian.items.create(name: "Squeaky Toy", description: "Awesome squeaky toy!", price: 15, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 30)
+      @dog_treats = @brian.items.create(name: "Dog Treats", description: "Pretty good dog treats. My dog liked them.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 25)
+
+      @frisbee = @brian.items.create(name: "Frisbee", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+      @dog_bed = @brian.items.create(name: "Dog Bed", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+      @tennis_ball = @brian.items.create(name: "Tennis Ball", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+      @dog_shampoo = @brian.items.create(name: "Dog Shampoo", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+
+      order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order_2 = Order.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
+      order_3 = Order.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
+
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 20)
+      order_2.item_orders.create!(item: @shifter, price: @shifter.price, quantity: 18)
+      order_2.item_orders.create!(item: @squeaky_toy, price: @squeaky_toy.price, quantity: 19)
+      order_3.item_orders.create!(item: @dog_treats, price: @dog_treats.price, quantity: 15)
+      order_3.item_orders.create!(item: @frisbee, price: @frisbee.price, quantity: 5)
+      order_3.item_orders.create!(item: @dog_bed, price: @dog_bed.price, quantity: 1)
+      order_3.item_orders.create!(item: @tennis_ball, price: @tennis_ball.price, quantity: 2)
+      order_3.item_orders.create!(item: @dog_shampoo, price: @dog_shampoo.price, quantity: 3)
+
+      expect(Item.top_five_items.first).to eq(@pull_toy)
+      expect(Item.top_five_items[1]).to eq(@squeaky_toy)
+      expect(Item.top_five_items[2]).to eq(@shifter)
+      expect(Item.top_five_items[3]).to eq(@dog_treats)
+      expect(Item.top_five_items[4]).to eq(@tire)
+    end
+
+    it "bottom five items" do
+      @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
+
+      @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      @shifter = @meg.items.create(name: "Shimano Shifters", description: "It'll always shift!", active?: false, price: 180, image: "https://images-na.ssl-images-amazon.com/images/I/4142WWbN64L._SX466_.jpg", inventory: 20)
+
+      @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+      @squeaky_toy = @brian.items.create(name: "Squeaky Toy", description: "Awesome squeaky toy!", price: 15, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 30)
+      @dog_treats = @brian.items.create(name: "Dog Treats", description: "Pretty good dog treats. My dog liked them.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 25)
+
+      @frisbee = @brian.items.create(name: "Frisbee", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+      @dog_bed = @brian.items.create(name: "Dog Bed", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+      @tennis_ball = @brian.items.create(name: "Tennis Ball", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+      @dog_shampoo = @brian.items.create(name: "Dog Shampoo", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
+
+      order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order_2 = Order.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
+      order_3 = Order.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
+
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 10)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 20)
+      order_2.item_orders.create!(item: @shifter, price: @shifter.price, quantity: 18)
+      order_2.item_orders.create!(item: @squeaky_toy, price: @squeaky_toy.price, quantity: 20)
+      order_3.item_orders.create!(item: @dog_treats, price: @dog_treats.price, quantity: 10)
+      order_3.item_orders.create!(item: @frisbee, price: @frisbee.price, quantity: 5)
+      order_3.item_orders.create!(item: @dog_bed, price: @dog_bed.price, quantity: 1)
+      order_3.item_orders.create!(item: @tennis_ball, price: @tennis_ball.price, quantity: 2)
+      order_3.item_orders.create!(item: @dog_shampoo, price: @dog_shampoo.price, quantity: 3)
+
+      expect(Item.bottom_five_items.first).to eq(@dog_bed)
+      expect(Item.bottom_five_items[1]).to eq(@tennis_ball)
+      expect(Item.bottom_five_items[2]).to eq(@dog_shampoo)
+      expect(Item.bottom_five_items[3]).to eq(@frisbee)
+      expect(Item.bottom_five_items[4]).to eq(@dog_treats)
     end
   end
 end
