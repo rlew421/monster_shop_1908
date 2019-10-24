@@ -1,11 +1,14 @@
 <h1>Your Orders</h1>
 
 <% @orders.each do |order| %>
-  <p>Ship to:</p>
-  <p>Name: <%= order.name %></p>
-  <p>Address: <%= order.Address %></p>
-  <p>City: <%= order.city %></p>
-  <p>State: <%= order.state %></p>
-  <p>Zip: <%= order.zip %></p>
-  <p>Creation Date: <%= order.created_at %></p>
+  <section id="orders-<%= order.id %>">
+    <p>Ship to:</p>
+    <p>Name: <%= order.name %></p>
+    <p>Address: <%= order.address %></p>
+    <p>City: <%= order.city %></p>
+    <p>State: <%= order.state %></p>
+    <p>Zip: <%= order.zip %></p>
+    <p>Creation Date: <%= order.created_at %></p>
+    <p>Total: <%=number_to_currency(order.grandtotal)%></p>
+  </section> 
 <% end %>

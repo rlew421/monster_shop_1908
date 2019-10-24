@@ -1,4 +1,6 @@
 class Order <ApplicationRecord
+  belongs_to :user
+
   validates_presence_of :name, :address, :city, :state, :zip
 
   has_many :item_orders
