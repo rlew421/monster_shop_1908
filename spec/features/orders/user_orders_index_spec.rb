@@ -9,38 +9,54 @@ describe 'As a registered user I am sent to my orders page after creating an ord
     fill_in :email, with: @user.email
     fill_in :password, with: @user.password
     click_button 'Log In'
+    bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: "80203")
+    tire = bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 50.00, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+    chain = bike_shop.items.create(name: "Chain", description: "It'll never break!", price: 25.05, image: "https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588", inventory: 5)
+    shifter = bike_shop.items.create(name: "Shimano Shifters", description: "It'll always shift!", active?: false, price: 50.00, image: "https://images-na.ssl-images-amazon.com/images/I/4142WWbN64L._SX466_.jpg", inventory: 4)
+
 
     order_1 = @user.orders.create!(name: 'Richy Rich', address: '102 Main St', city: 'NY', state: 'New York', zip: '10221' )
     order_2 = @user.orders.create!(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221' )
     order_3 = @user.orders.create!(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221' )
 
+    tire.item_orders.create(quantity: 2, price: 100.00, order_id: order_1.id)
+    chain.item_orders.create(quantity: 1, price: 25.05, order_id: order_1.id)
+    shifter.item_orders.create(quantity: 3, price: 150.00, order_id: order_2.id)
+
+    tire.item_orders.create(quantity: 2, price: 100.00, order_id: order_2.id)
+    chain.item_orders.create(quantity: 1, price: 25.05, order_id: order_2.id)
+    shifter.item_orders.create(quantity: 3, price: 150.00, order_id: order_3.id)
+
+
     visit "/profile/orders"
 
     within "#orders-#{order_1.id}" do
-      expect(page).to have_content('Ship to:')
-      expect(page).to have_content('Name: Richy Rich')
-      expect(page).to have_content('Address: 102 Main St')
-      expect(page).to have_content('City: NY')
-      expect(page).to have_content('State: New York')
-      expect(page).to have_content('Zip: 10221')
+      expect(page).to have_content("Order ID: #{order_1.id}")
+      expect(page).to have_content('Creation Date:')
+      expect(page).to have_content('Last Updated:')
+      expect(page).to have_content('Status: pending')
+      expect(page).to have_content('Number of Items: 2')
+      expect(page).to have_content('Grand Total: $225.05')
    end
 
     within "#orders-#{order_2.id}" do
-      expect(page).to have_content('Ship to:')
-      expect(page).to have_content('Name: Alice Wonder')
-      expect(page).to have_content('Address: 346 Underground Blvd')
-      expect(page).to have_content('City: NY')
-      expect(page).to have_content('State: New York')
-      expect(page).to have_content('Zip: 10221')
+      expect(page).to have_content("Order ID: #{order_2.id}")
+      expect(page).to have_content('Creation Date:')
+      expect(page).to have_content('Last Updated:')
+      expect(page).to have_content('Status: pending')
+      expect(page).to have_content('Number of Items: 3')
+      expect(page).to have_content('Grand Total: $675.05')
    end
 
     within "#orders-#{order_3.id}" do
-      expect(page).to have_content('Ship to:')
-      expect(page).to have_content('Name: Sonny Moore')
-      expect(page).to have_content('Address: 87 Electric Ave')
-      expect(page).to have_content('City: NY')
-      expect(page).to have_content('State: New York')
-      expect(page).to have_content('Zip: 10221')
+      expect(page).to have_content("Order ID: #{order_3.id}")
+      expect(page).to have_content('Creation Date:')
+      expect(page).to have_content('Last Updated:')
+      expect(page).to have_content('Status: pending')
+      expect(page).to have_content('Number of Items: 1')
+      expect(page).to have_content('Grand Total: $450.00')
    end
+
+
  end
 end

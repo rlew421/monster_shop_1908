@@ -2,13 +2,11 @@
 
 <% @orders.each do |order| %>
   <section id="orders-<%= order.id %>">
-    <p>Ship to:</p>
-    <p>Name: <%= order.name %></p>
-    <p>Address: <%= order.address %></p>
-    <p>City: <%= order.city %></p>
-    <p>State: <%= order.state %></p>
-    <p>Zip: <%= order.zip %></p>
-    <p>Creation Date: <%= order.created_at %></p>
-    <p>Total: <%=number_to_currency(order.grandtotal)%></p>
-  </section> 
+    <p>Order ID: <%= link_to order.id, "/orders/#{order.id}" %></p>
+    <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal) %></p>
+    <p>Last Updated: <%= order.updated_at.to_formatted_s(:long_ordinal) %>   </p>
+    <p>Status:  <%= order.status %>   </p>
+    <p>Number of Items:  <%= order.item_count %>   </p>
+    <p>Grand Total: <%=number_to_currency(order.grandtotal)%></p>
+  </section>
 <% end %>
