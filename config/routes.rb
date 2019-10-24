@@ -25,9 +25,6 @@ Rails.application.routes.draw do
 
   delete '/cancel/:order_id', to: 'orders#destroy'
 
-
-
-
   get '/profile/orders', to: 'orders#index'
   get '/profile/orders/:order_id', to: 'orders#show'
 
@@ -42,7 +39,6 @@ Rails.application.routes.draw do
   put '/profile/:user_id', to: 'users#update'
   get '/profile/:user_id/edit/password', to: 'users#edit'
   patch '/profile/:user_id/password', to: 'users#update'
-
 
   namespace :admin do
     get '/users', to: 'dashboard#index'

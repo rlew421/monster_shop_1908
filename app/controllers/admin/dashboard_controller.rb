@@ -4,6 +4,6 @@ class Admin::DashboardController < Admin::BaseController
   end
 
   def index
-    @users = User.all
+    @users = User.where(role: 'default')
   end
 end

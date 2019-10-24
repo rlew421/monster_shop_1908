@@ -29,6 +29,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:user_id])
+
     if request.env['PATH_INFO'] == "/profile/#{@user.id}/edit/password"
       @password_change = true
     else
