@@ -1,5 +1,9 @@
 class OrdersController <ApplicationController
 
+  def index
+    @orders = Order.where(user_id: params[:user_id])
+  end
+
   def new
   end
 
@@ -18,7 +22,8 @@ class OrdersController <ApplicationController
           })
       end
       session.delete(:cart)
-      redirect_to "/orders/#{order.id}"
+      flash[:success] = 'Your order has been placed!'
+      redirect_to "/profile/#{current_user.id}/orders"
     else
       flash[:notice] = "Please complete address form to create an order."
       render :new

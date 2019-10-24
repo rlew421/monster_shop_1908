@@ -1,11 +1,5 @@
-# When I fill out all information on the new order page
-# And click on 'Create Order'
-# An order is created and saved in the database
-# And I am redirected to that order's show page with the following information:
-#
-# - Details of the order:
+require 'rails_helper'
 
-# - the date when the order was created
 RSpec.describe("Order Creation") do
   describe "When I check out from my cart" do
     before(:each) do
@@ -25,11 +19,11 @@ RSpec.describe("Order Creation") do
       click_on "Add To Cart"
 
       visit '/'
-      user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
+      @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
       click_link 'Login'
 
-      fill_in :email, with: user.email
-      fill_in :password, with: user.password
+      fill_in :email, with: @user.email
+      fill_in :password, with: @user.password
       click_button 'Log In'
 
 
@@ -37,7 +31,7 @@ RSpec.describe("Order Creation") do
       click_on "Checkout"
     end
 
-    it 'I can create a new order' do
+    it 'shows all order information' do
       name = "Bert"
       address = "123 Sesame St."
       city = "NYC"
@@ -54,7 +48,10 @@ RSpec.describe("Order Creation") do
 
       new_order = Order.last
 
-      expect(current_path).to eq("/orders/#{new_order.id}")
+      expect(current_path).to eq("/profile/#{@user.id}/orders")
+      expect(page).to have_content('Your order has been placed!')
+
+      visit "/orders/#{new_order.id}"
 
       within '.shipping-address' do
         expect(page).to have_content(name)
@@ -96,26 +93,5 @@ RSpec.describe("Order Creation") do
         expect(page).to have_content(new_order.created_at)
       end
     end
-
-    it 'i cant create order if info not filled out' do
-      name = ""
-      address = "123 Sesame St."
-      city = "NYC"
-      state = "New York"
-      zip = 10001
-
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-
-      click_button "Create Order"
-
-      expect(page).to have_content("Please complete address form to create an order.")
-      expect(page).to have_button("Create Order")
-    end
-
-
   end
 end
