@@ -102,19 +102,21 @@ RSpec.describe "admin dashboard" do
 
     within "#users-#{@user_1.id}" do
       click_link "Upgrade to Merchant Employee"
-     end
-     @user_1.reload
-     expect(current_path).to eq('/admin/users')
-     expect(@user_1.role).to eq("merchant_employee")
+    end
+
+    @user_1.reload
+    expect(current_path).to eq('/admin/users')
+    expect(@user_1.role).to eq("merchant_employee")
 
     visit '/admin/users'
 
     within "#users-#{@user_2.id}" do
       click_link "Upgrade to Merchant Employee"
       @user_2.reload
-     end
-     expect(current_path).to eq('/admin/users')
-     expect(@user_2.role).to eq("merchant_employee")
+    end
+
+    expect(current_path).to eq('/admin/users')
+    expect(@user_2.role).to eq("merchant_employee")
 
     visit '/admin/users'
 
@@ -122,6 +124,7 @@ RSpec.describe "admin dashboard" do
      click_link "Upgrade to Merchant Employee"
      @user_3.reload
     end
+
     expect(current_path).to eq('/admin/users')
     expect(@user_3.role).to eq("merchant_employee")
   end
@@ -130,8 +133,9 @@ RSpec.describe "admin dashboard" do
     visit '/admin/users'
 
     within "#users-#{@user_1.id}" do
-    click_link "Upgrade to Merchant Admin"
+      click_link "Upgrade to Merchant Admin"
     end
+    
     @user_1.reload
     expect(current_path).to eq('/admin/users')
     expect(@user_1.role).to eq("merchant_admin")
@@ -139,18 +143,20 @@ RSpec.describe "admin dashboard" do
     visit '/admin/users'
 
     within "#users-#{@user_2.id}" do
-    click_link "Upgrade to Merchant Admin"
-    @user_2.reload
+      click_link "Upgrade to Merchant Admin"
+      @user_2.reload
     end
+    
     expect(current_path).to eq('/admin/users')
     expect(@user_2.role).to eq("merchant_admin")
 
     visit '/admin/users'
 
     within "#users-#{@user_3.id}" do
-    click_link "Upgrade to Merchant Admin"
-    @user_3.reload
+      click_link "Upgrade to Merchant Admin"
+      @user_3.reload
     end
+    
     expect(current_path).to eq('/admin/users')
     expect(@user_3.role).to eq("merchant_admin")
   end
