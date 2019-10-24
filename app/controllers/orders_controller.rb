@@ -22,6 +22,10 @@ class OrdersController <ApplicationController
           price: item.price
           })
       end
+      cart.items.each do |item, quantity|
+        new_quantity = item.inventory - quantity
+        item.update_attributes(:inventory => new_quantity)
+      end
       session.delete(:cart)
       flash[:success] = 'Your order has been placed!'
       redirect_to "/profile/orders"
@@ -29,6 +33,22 @@ class OrdersController <ApplicationController
       flash[:notice] = "Please complete address form to create an order."
       render :new
     end
+  end
+
+  def destroy
+    order = Order.find(params[:order_id])
+    order.update_attributes(:status => 'cancelled')
+
+    order.item_orders.each do |item_order|
+      item_order.update_attributes(:status => 'unfulfilled')
+
+      item = Item.find(item_order.item_id)
+      new_quantity = item.inventory + item_order.quantity
+      item.update_attributes(:inventory => new_quantity)
+    end
+
+    flash[:success] = 'Your order has been cancelled.'
+    redirect_to "/profile/#{session[:user_id]}"
   end
 
 
