@@ -10,7 +10,6 @@ describe 'logout' do
       fill_in :password, with: user.password
       click_button 'Log In'
 
-
       expect(page).to have_content('Logged in as Patti')
       click_link 'Log Out'
 

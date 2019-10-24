@@ -16,7 +16,7 @@ RSpec.describe 'Cart show' do
         click_on "Add To Cart"
         visit "/items/#{@pencil.id}"
         click_on "Add To Cart"
-        @items_in_cart = [@paper,@tire,@pencil]
+        @items_in_cart = [@paper, @tire, @pencil]
       end
 
       it 'I can empty my cart by clicking a link' do

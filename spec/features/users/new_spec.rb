@@ -83,9 +83,6 @@ describe 'Register' do
     expect(find_field('Zip').value).to eq('10012')
     expect(find_field('Email').value).to eq(nil)
     expect(find_field('Password').value).to eq(nil)
-
-
-
   end
 
   it "cannot register a new user without matching password confirmation" do

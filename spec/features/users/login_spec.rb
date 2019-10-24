@@ -24,6 +24,7 @@ describe 'Login' do
       expect(page).to have_content('Zip Code: 96701')
       expect(page).to have_content('E-mail: pattimonkey34@gmail.com')
     end
+    
     it 'cannot log in with invalid credentials' do
 
       visit '/'

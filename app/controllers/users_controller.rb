@@ -29,6 +29,11 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:user_id])
+    if request.env['PATH_INFO'] == "/profile/#{@user.id}/edit/password"
+      @password_change = true
+    else
+      @password_change = false
+    end
   end
 
   def update
@@ -36,11 +41,14 @@ class UsersController < ApplicationController
     @user.update(user_params)
 
     if @user.save
-      flash[:sucess] = "Hello, #{@user.name}! You have successfully updated your profile."
+      flash[:sucess] = "Hello, #{@user.name}! You have successfully updated your profile." if request.env['REQUEST_METHOD'] == "PUT"
+      flash[:sucess] = "Hello, #{@user.name}! You have successfully updated your password." if request.env['REQUEST_METHOD'] == "PATCH"
       redirect_to "/profile/#{@user.id}"
     else
-      flash[:error] = "You weren't able to make those changes"
-      render :edit
+      flash[:error] = @user.errors.full_messages.to_sentence
+
+      redirect_to "/profile/#{@user.id}/edit" if request.env['REQUEST_METHOD'] == "PUT"
+      redirect_to "/profile/#{@user.id}/edit/password" if request.env['REQUEST_METHOD'] == "PATCH"
     end
   end
 
