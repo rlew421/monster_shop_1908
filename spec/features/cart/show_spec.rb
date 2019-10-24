@@ -27,7 +27,6 @@ RSpec.describe 'Cart show' do
         expect(page).to_not have_css(".cart-items")
         expect(page).to have_content("Cart is currently empty")
       end
-
       it 'I see all items Ive added to my cart' do
         visit '/cart'
 
@@ -55,6 +54,24 @@ RSpec.describe 'Cart show' do
 
         expect(page).to have_content("Total: $124")
       end
+      it 'after logging in I do not see a reminder to log in/register to check out' do
+        visit '/cart'
+
+        expect(page).to have_content('You must login or register to check out.')
+
+        user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
+        click_link 'Login'
+        
+        fill_in :email, with: user.email
+        fill_in :password, with: user.password
+        click_button 'Log In'
+
+        visit '/cart'
+
+        expect(page).to_not have_content('You must login or register to check out.')
+
+      end
+
     end
   end
   describe "When I haven't added anything to my cart" do
@@ -69,7 +86,6 @@ RSpec.describe 'Cart show' do
         visit '/cart'
         expect(page).to_not have_link("Empty Cart")
       end
-
     end
   end
 end

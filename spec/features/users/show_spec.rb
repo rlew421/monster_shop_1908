@@ -6,9 +6,17 @@ describe "As a regular User" do
       @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
-    
+
     it "Displays my profile data and a link to edit my profile." do
       visit "/profile/#{@user.id}"
+
+      order_1 = @user.orders.create!(name: 'Richy Rich', address: '102 Main St', city: 'NY', state: 'New York', zip: '10221' )
+      order_2 = @user.orders.create!(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221' )
+      order_3 = @user.orders.create!(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221' )
+
+
+      expect(page).to have_link('My Orders')
+
 
       expect(page).to have_content('Hello, Patti!')
       expect(page).to have_content('953 Sunshine Ave')

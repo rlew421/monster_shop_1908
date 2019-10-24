@@ -19,6 +19,18 @@ Rails.application.routes.draw do
   delete "/cart/:item_id", to: "cart#remove_item"
   patch "/cart/:item_id/:increment_decrement", to: "cart#increment_decrement"
 
+  get "/orders/new", to: "orders#new"
+  post "/orders", to: "orders#create"
+  get "/orders/:id", to: "orders#show"
+
+  delete '/cancel/:id', to: 'orders#destroy'
+
+
+
+
+  get '/profile/orders', to: 'orders#index'
+  get '/profile/orders/:order_id', to: 'orders#show'
+
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'

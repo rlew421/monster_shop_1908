@@ -1,4 +1,6 @@
 class Order <ApplicationRecord
+  belongs_to :user
+
   validates_presence_of :name, :address, :city, :state, :zip
 
   has_many :item_orders
@@ -6,5 +8,9 @@ class Order <ApplicationRecord
 
   def grandtotal
     item_orders.sum('price * quantity')
+  end
+
+  def item_count
+    items.length
   end
 end

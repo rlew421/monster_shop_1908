@@ -15,6 +15,14 @@ RSpec.describe("New Order Page") do
       click_on "Add To Cart"
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
+      visit '/'
+      @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
+      click_link 'Login'
+
+      fill_in :email, with: @user.email
+      fill_in :password, with: @user.password
+      click_button 'Log In'
+
     end
     it "I see all the information about my current cart" do
       visit "/cart"
@@ -57,6 +65,51 @@ RSpec.describe("New Order Page") do
       expect(page).to have_field(:city)
       expect(page).to have_field(:state)
       expect(page).to have_field(:zip)
+      expect(page).to have_button("Create Order")
+    end
+    it 'I can create a new order' do
+      visit "/cart"
+      click_on "Checkout"
+
+      name = "Bert"
+      address = "123 Sesame St."
+      city = "NYC"
+      state = "New York"
+      zip = 10001
+
+      fill_in :name, with: name
+      fill_in :address, with: address
+      fill_in :city, with: city
+      fill_in :state, with: state
+      fill_in :zip, with: zip
+
+      click_button "Create Order"
+
+      new_order = Order.last
+
+      expect(current_path).to eq("/profile/orders")
+      expect(page).to have_link('Cart: 0')
+      expect(page).to have_content('Your order has been placed!')
+  end
+    it 'i cant create order if info not filled out' do
+      visit "/cart"
+      click_on "Checkout"
+
+      name = ""
+      address = "123 Sesame St."
+      city = "NYC"
+      state = "New York"
+      zip = 10001
+
+      fill_in :name, with: name
+      fill_in :address, with: address
+      fill_in :city, with: city
+      fill_in :state, with: state
+      fill_in :zip, with: zip
+
+      click_button "Create Order"
+
+      expect(page).to have_content("Please complete address form to create an order.")
       expect(page).to have_button("Create Order")
     end
   end

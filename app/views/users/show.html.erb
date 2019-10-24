@@ -1,5 +1,9 @@
 <h1>Hello, <%= @user.name %>!</h1>
 
+<% if !@user.orders.nil? %>
+  <%= link_to 'My Orders', "/profile/orders" %>
+<% end %>
+
 <p>Address: <%= @user.address %></p>
 <p>City: <%= @user.city %></p>
 <p>State: <%= @user.state %></p>

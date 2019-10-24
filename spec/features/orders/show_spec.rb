@@ -1,11 +1,5 @@
-# When I fill out all information on the new order page
-# And click on 'Create Order'
-# An order is created and saved in the database
-# And I am redirected to that order's show page with the following information:
-#
-# - Details of the order:
+require 'rails_helper'
 
-# - the date when the order was created
 RSpec.describe("Order Creation") do
   describe "When I check out from my cart" do
     before(:each) do
@@ -24,11 +18,20 @@ RSpec.describe("Order Creation") do
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
 
+      visit '/'
+      @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
+      click_link 'Login'
+
+      fill_in :email, with: @user.email
+      fill_in :password, with: @user.password
+      click_button 'Log In'
+
+
       visit "/cart"
       click_on "Checkout"
     end
 
-    it 'I can create a new order' do
+    it 'shows all order information' do
       name = "Bert"
       address = "123 Sesame St."
       city = "NYC"
@@ -45,7 +48,10 @@ RSpec.describe("Order Creation") do
 
       new_order = Order.last
 
-      expect(current_path).to eq("/orders/#{new_order.id}")
+      expect(current_path).to eq("/profile/orders")
+      expect(page).to have_content('Your order has been placed!')
+
+      visit "/orders/#{new_order.id}"
 
       within '.shipping-address' do
         expect(page).to have_content(name)
@@ -57,56 +63,49 @@ RSpec.describe("Order Creation") do
 
       within "#item-#{@paper.id}" do
         expect(page).to have_link(@paper.name)
-        expect(page).to have_link("#{@paper.merchant.name}")
+        expect(page).to have_content("#{@paper.description}")
+        expect(page).to have_css("img[src*='#{@paper.image}']")
         expect(page).to have_content("$#{@paper.price}")
         expect(page).to have_content("2")
         expect(page).to have_content("$40")
+        expect(page).to have_link("#{@paper.merchant.name}")
       end
 
       within "#item-#{@tire.id}" do
         expect(page).to have_link(@tire.name)
-        expect(page).to have_link("#{@tire.merchant.name}")
+        expect(page).to have_content("#{@tire.description}")
+        expect(page).to have_css("img[src*='#{@tire.image}']")
         expect(page).to have_content("$#{@tire.price}")
         expect(page).to have_content("1")
         expect(page).to have_content("$100")
+        expect(page).to have_link("#{@tire.merchant.name}")
       end
 
       within "#item-#{@pencil.id}" do
         expect(page).to have_link(@pencil.name)
-        expect(page).to have_link("#{@pencil.merchant.name}")
+        expect(page).to have_content("#{@pencil.description}")
+        expect(page).to have_css("img[src*='#{@pencil.image}']")
         expect(page).to have_content("$#{@pencil.price}")
         expect(page).to have_content("1")
         expect(page).to have_content("$2")
+        expect(page).to have_link("#{@pencil.merchant.name}")
       end
 
+
+      expect(page).to have_content("Order ID: #{new_order.id}")
+
+      within "#datecreated" do
+        expect(page).to have_content(new_order.created_at.to_formatted_s(:long_ordinal))
+      end
+      expect(page).to have_content("Last Updated: #{new_order.created_at.to_formatted_s(:long_ordinal)}")
+      expect(page).to have_content('Status: pending')
+      expect(page).to have_content('Total Items: 3')
       within "#grandtotal" do
         expect(page).to have_content("Total: $142")
       end
 
-      within "#datecreated" do
-        expect(page).to have_content(new_order.created_at)
-      end
+      expect(page).to have_link('Cancel Order')
+
     end
-
-    it 'i cant create order if info not filled out' do
-      name = ""
-      address = "123 Sesame St."
-      city = "NYC"
-      state = "New York"
-      zip = 10001
-
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-
-      click_button "Create Order"
-
-      expect(page).to have_content("Please complete address form to create an order.")
-      expect(page).to have_button("Create Order")
-    end
-
-
   end
 end
