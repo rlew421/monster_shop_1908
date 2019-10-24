@@ -23,3 +23,24 @@
     </section>
   <% end %>
 </section>
+
+<section class="item-stats">
+  <section class="top-five-items">
+    <h2>Top Five Items</h2>
+    <ol>
+      <% @items.top_five_items.each do |item| %>
+        <li> <%=link_to item.name, "/items/#{item.id}" %> </li>
+        <p>Quantity bought: <%= item.total_quantity %></p>
+    <% end %>
+  </ol>
+  </section>
+  <section class="bottom-five-items">
+    <h2>Bottom Five Items</h2>
+    <ol>
+      <% @items.bottom_five_items.each do |item| %>
+        <li> <%=link_to item.name, "/items/#{item.id}" %> </li>
+        <p>Quantity bought: <%= item.total_quantity %></p>
+    <% end %>
+  </ol>
+  </section>
+</section>
