@@ -56,3 +56,8 @@
 <section id="grandtotal">
   <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
 </section>
+
+
+<% if @order.status == 'pending' %>
+  <%= link_to 'Cancel Order', "/cancel/#{@order.id}"  %>
+<% end %>

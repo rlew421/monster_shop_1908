@@ -97,12 +97,14 @@ RSpec.describe("Order Creation") do
       within "#datecreated" do
         expect(page).to have_content(new_order.created_at.to_formatted_s(:long_ordinal))
       end
-      expect(page).to have_content("Last Updated: #{new_order.created_at.to_formatted_s(:long_ordinal)}") 
+      expect(page).to have_content("Last Updated: #{new_order.created_at.to_formatted_s(:long_ordinal)}")
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Total Items: 3')
       within "#grandtotal" do
         expect(page).to have_content("Total: $142")
       end
+
+      expect(page).to have_link('Cancel Order')
 
     end
   end
