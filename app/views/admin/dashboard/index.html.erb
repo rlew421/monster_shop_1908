@@ -2,15 +2,15 @@
 
 <% @users.each do |user| %>
   <section id="users-<%= user.id %>">
-    <p>Name: <%= user.name %></p>
+    <p>Name: <%= link_to "#{user.name}", "/admin/users/#{user.id}" %></p>
     <p>Address: <%= user.address %></p>
     <p>City: <%= user.city %></p>
     <p>State: <%= user.state %></p>
     <p>Zip Code: <%= user.zip %></p>
     <p>E-mail: <%= user.email %></p>
+    <p>Role: <%= user.role %></p>
     <%= link_to "Edit Profile", "/admin/users/#{user.id}/edit" %>
     <%= link_to "Edit Password", "/admin/users/#{user.id}/edit/password" %>
-    <%= link_to "Upgrade to Merchant Employee", "/admin/users/#{user.id}/upgrade_merchant_employee" %>
-    <%= link_to "Upgrade to Merchant Admin", "/admin/users/#{user.id}/upgrade_merchant_admin" %>
+    <%= link_to "Upgrade to Merchant User", "/admin/users/#{user.id}/edit_role" %>
   </section>
 <% end %>
