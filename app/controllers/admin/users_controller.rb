@@ -9,6 +9,10 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
+  def show
+    @user = User.find(params[:user_id])
+  end
+
   def update
     @user = User.find(params[:user_id])
     @user.update(user_params)
@@ -25,19 +29,20 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
+  def edit_role
+    @user = User.find(params[:user_id])
+    @merchants = Merchant.all
+  end
+
   def upgrade
     user = User.find(params[:user_id])
-    if request.env['PATH_INFO'] == "/admin/users/#{user.id}/upgrade_merchant_employee"
-      user.update_column(:role, "merchant_employee")
-    else request.env['PATH_INFO'] == "/admin/users/#{user.id}/upgrade_merchant_admin"
-      user.update_column(:role, "merchant_admin")
-    end
+    user.role_upgrade(user_params[:merchant], user_params[:role])
     redirect_to '/admin/users'
   end
 
   private
 
   def user_params
-    params.permit(:name, :city, :address, :city, :state, :zip, :email, :password, :password_confirmation)
+    params.permit(:name, :city, :address, :city, :state, :zip, :email, :password, :password_confirmation, :merchant, :role)
   end
 end
