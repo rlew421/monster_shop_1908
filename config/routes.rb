@@ -11,14 +11,13 @@ Rails.application.routes.draw do
   end
 
   resources :reviews, only: [:edit, :update, :destroy]
+  resources :orders, only: [:new, :create, :show]
 
   post "/cart/:item_id", to: "cart#add_item"
   get "/cart", to: "cart#show"
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
   patch "/cart/:item_id/:increment_decrement", to: "cart#increment_decrement"
-
-  resources :orders, only: [:new, :create, :show]
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
