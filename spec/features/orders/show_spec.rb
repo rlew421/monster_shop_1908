@@ -48,7 +48,7 @@ RSpec.describe("Order Creation") do
 
       new_order = Order.last
 
-      expect(current_path).to eq("/profile/#{@user.id}/orders")
+      expect(current_path).to eq("/profile/orders")
       expect(page).to have_content('Your order has been placed!')
 
       visit "/orders/#{new_order.id}"

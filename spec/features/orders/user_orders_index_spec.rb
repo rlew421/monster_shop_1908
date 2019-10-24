@@ -14,7 +14,7 @@ describe 'As a registered user I am sent to my orders page after creating an ord
     order_2 = @user.orders.create!(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221' )
     order_3 = @user.orders.create!(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221' )
 
-    visit "/profile/#{@user.id}/orders"
+    visit "/profile/orders"
 
     within "#orders-#{order_1.id}" do
       expect(page).to have_content('Ship to:')
