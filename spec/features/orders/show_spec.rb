@@ -48,10 +48,10 @@ RSpec.describe("Order Creation") do
 
       new_order = Order.last
 
-      expect(current_path).to eq("/profile/orders")
+      expect(current_path).to eq("/profile/orders/#{new_order.id}")
       expect(page).to have_content('Your order has been placed!')
 
-      visit "/orders/#{new_order.id}"
+      visit "/profile/orders/#{new_order.id}"
 
       within '.shipping-address' do
         expect(page).to have_content(name)
@@ -91,21 +91,21 @@ RSpec.describe("Order Creation") do
         expect(page).to have_link("#{@pencil.merchant.name}")
       end
 
-
       expect(page).to have_content("Order ID: #{new_order.id}")
 
       within "#datecreated" do
         expect(page).to have_content(new_order.created_at.to_formatted_s(:long_ordinal))
       end
+
       expect(page).to have_content("Last Updated: #{new_order.created_at.to_formatted_s(:long_ordinal)}")
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Total Items: 3')
+
       within "#grandtotal" do
         expect(page).to have_content("Total: $142")
       end
 
       expect(page).to have_link('Cancel Order')
-
     end
   end
 end

@@ -30,6 +30,7 @@ describe 'As a registered user I am sent to my orders page after creating an ord
 
     visit "/profile/orders"
 
+
     within "#orders-#{order_1.id}" do
       expect(page).to have_content("Order ID: #{order_1.id}")
       expect(page).to have_content("Creation Date: #{order_1.created_at.to_formatted_s(:long_ordinal)}")
@@ -37,8 +38,13 @@ describe 'As a registered user I am sent to my orders page after creating an ord
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Number of Items: 2')
       expect(page).to have_content('Grand Total: $225.05')
-   end
 
+      click_link "#{order_1.id}"
+
+      expect(current_path).to eq("/profile/orders/#{order_1.id}")
+    end
+
+    visit "/profile/orders"
     within "#orders-#{order_2.id}" do
       expect(page).to have_content("Order ID: #{order_2.id}")
       expect(page).to have_content("Creation Date: #{order_2.created_at.to_formatted_s(:long_ordinal)}")
@@ -46,8 +52,13 @@ describe 'As a registered user I am sent to my orders page after creating an ord
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Number of Items: 3')
       expect(page).to have_content('Grand Total: $675.05')
-   end
 
+      click_link "#{order_2.id}"
+
+      expect(current_path).to eq("/profile/orders/#{order_2.id}")
+    end
+    
+    visit "/profile/orders"
     within "#orders-#{order_3.id}" do
       expect(page).to have_content("Order ID: #{order_3.id}")
       expect(page).to have_content("Creation Date: #{order_3.created_at.to_formatted_s(:long_ordinal)}")
@@ -55,8 +66,10 @@ describe 'As a registered user I am sent to my orders page after creating an ord
       expect(page).to have_content('Status: pending')
       expect(page).to have_content('Number of Items: 1')
       expect(page).to have_content('Grand Total: $450.00')
-   end
 
+      click_link "#{order_3.id}"
 
- end
+      expect(current_path).to eq("/profile/orders/#{order_3.id}")
+    end
+  end
 end

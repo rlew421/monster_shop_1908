@@ -1,6 +1,6 @@
 <h1>Hello, <%= @user.name %>!</h1>
 
-<% if !@user.orders.nil? %>
+<% if !@user.orders.empty? %>
   <%= link_to 'My Orders', "/profile/orders" %>
 <% end %>
 

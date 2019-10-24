@@ -2,7 +2,7 @@
 
 <% @orders.each do |order| %>
   <section id="orders-<%= order.id %>">
-    <p>Order ID: <%= link_to order.id, "profile/orders/#{order.id}" %></p>
+    <p>Order ID: <%= link_to order.id, "/profile/orders/#{order.id}" %></p>
     <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal) %></p>
     <p>Last Updated: <%= order.updated_at.to_formatted_s(:long_ordinal) %>   </p>
     <p>Status:  <%= order.status %>   </p>
