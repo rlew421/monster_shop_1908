@@ -88,6 +88,7 @@ RSpec.describe("New Order Page") do
       new_order = Order.last
 
       expect(current_path).to eq("/profile/orders")
+      expect(page).to have_link('Cart: 0')
       expect(page).to have_content('Your order has been placed!')
   end
     it 'i cant create order if info not filled out' do
