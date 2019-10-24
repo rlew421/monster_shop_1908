@@ -30,6 +30,7 @@
       <th>Quantity</th>
       <th>Subtotal</th>
       <th>Sold By</th>
+      <th>Status</th>
     </tr>
   <% @order.item_orders.each do |item_order|%>
     <tr>
@@ -41,6 +42,7 @@
         <td><p><%= item_order.quantity%></p></td>
         <td><p><%= number_to_currency(item_order.subtotal)%></p></td>
         <td><p><%= link_to item_order.item.merchant.name, "/merchants/#{item_order.item.merchant.id}"%></p></td>
+        <td><p><%= item_order.status %></p></td>
       </section>
     </tr>
   <% end %>
@@ -59,5 +61,5 @@
 
 
 <% if @order.status == 'pending' %>
-  <%= link_to 'Cancel Order', "/cancel/#{@order.id}"  %>
+  <%= link_to 'Cancel Order', "/cancel/#{@order.id}", method: :delete  %>
 <% end %>
