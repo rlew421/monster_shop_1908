@@ -43,6 +43,10 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/users', to: 'dashboard#index'
     get '/:admin_id', to: 'dashboard#show'
+    get '/users/:user_id/edit', to: 'users#edit'
+    get '/users/:user_id/edit/password', to: 'users#edit'
+    get 'users/:user_id/upgrade_merchant_employee', to: 'users#upgrade'
+    get 'users/:user_id/upgrade_merchant_admin', to: 'users#upgrade'
   end
 
   namespace :merchant do
