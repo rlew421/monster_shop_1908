@@ -14,7 +14,6 @@ class User < ApplicationRecord
   enum role: %w(default merchant_employee merchant_admin admin)
 
   def role_upgrade(merchant, new_role)
-    binding.pry
     self.update_column(:role, new_role)
     Employment.creation(self, merchant)
   end

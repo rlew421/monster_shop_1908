@@ -36,8 +36,17 @@ class Admin::UsersController < Admin::BaseController
 
   def upgrade
     user = User.find(params[:user_id])
+    binding.pry
+    original_role = user.role
     user.role_upgrade(user_params[:merchant], user_params[:role])
-    redirect_to '/admin/users'
+
+    if user.role != original_role
+      flash[:sucess] = "You have successfully changed #{user.name}'s role to #{user.role}."
+      redirect_to '/admin/users'
+    else
+      flash[:error] = user.errors.full_messages.to_sentence
+      render :edit_role
+    end
   end
 
   private
