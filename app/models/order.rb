@@ -1,7 +1,7 @@
 class Order <ApplicationRecord
   belongs_to :user
 
-  validates_presence_of :name, :address, :city, :state, :zip
+  validates_presence_of :name, :address, :city, :state, :zip, :status
 
   has_many :item_orders
   has_many :items, through: :item_orders
@@ -14,6 +14,10 @@ class Order <ApplicationRecord
     items.length
   end
 
+  def self.fulfill(order_id)
+    Order.where(id: order_id).update(status: 'fulfilled')
+  end
+
   def merchant_item_quantity(merchant)
     item_orders.where(merchant_id: merchant.id).sum(:quantity)
   end
@@ -21,5 +25,4 @@ class Order <ApplicationRecord
   def merchant_total_value(merchant)
      item_orders.where(merchant_id: merchant.id).sum('item_orders.price * item_orders.quantity')
   end
-
 end

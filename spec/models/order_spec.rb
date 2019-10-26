@@ -7,6 +7,7 @@ describe Order, type: :model do
     it { should validate_presence_of :city }
     it { should validate_presence_of :state }
     it { should validate_presence_of :zip }
+    it { should validate_presence_of :status }
   end
 
   describe "relationships" do
@@ -30,16 +31,28 @@ describe Order, type: :model do
       @order_1.item_orders.create!(item: tire, price:tire.price, quantity: 2, merchant: @meg)
       @order_1.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 3, merchant: @brian)
     end
+
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
     end
+
+    it 'fulfill' do
+      expect(@order_1.status).to eq('pending')
+
+      Order.fulfill(@order_1.id)
+      @order_1.reload
+
+      expect(@order_1.status).to eq('fulfilled')
+
     it 'merchant item_count' do
       expect(@order_1.item_count).to eq(2)
     end
+    
     it 'merchant item quantity' do
       expect(@order_1.merchant_item_quantity(@meg)).to eq(2)
       expect(@order_1.merchant_item_quantity(@brian)).to eq(3)
     end
+    
     it 'merchant total value' do
       expect(@order_1.merchant_total_value(@meg)).to eq(200)
       expect(@order_1.merchant_total_value(@brian)).to eq(30)
