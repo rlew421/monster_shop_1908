@@ -1,9 +1,3 @@
-# As a visitor
-# When I visit a merchant's show page
-# I see statistics for that merchant, including:
-# - count of items for that merchant
-# - average price of that merchant's items
-# - Distinct cities where my items have been ordered
 require 'rails_helper'
 
 RSpec.describe 'merchant show page', type: :feature do
@@ -22,12 +16,12 @@ RSpec.describe 'merchant show page', type: :feature do
       @order_2 = user.orders.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
       @order_3 = user.orders.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
-      @order_2.item_orders.create!(item: @dog_bone, price: @dog_bone.price, quantity: 2)
-      @order_2.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2)
-      @order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_3.item_orders.create!(item: @dog_bone, price: @dog_bone.price, quantity: 5)
+      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg )
+      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3, merchant: @brian )
+      @order_2.item_orders.create!(item: @dog_bone, price: @dog_bone.price, quantity: 2, merchant: @brian )
+      @order_2.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2, merchant: @brian )
+      @order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg )
+      @order_3.item_orders.create!(item: @dog_bone, price: @dog_bone.price, quantity: 5, merchant: @brian )
     end
 
     it 'I can see a merchants statistics' do
@@ -42,8 +36,6 @@ RSpec.describe 'merchant show page', type: :feature do
           expect(page).to have_content("Denver")
         end
       end
-
-
     end
   end
 end
