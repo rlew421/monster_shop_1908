@@ -33,5 +33,14 @@ describe Order, type: :model do
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
     end
+
+    it 'fulfill' do
+      expect(@order_1.status).to eq('pending')
+      
+      Order.fulfill(@order_1.id)
+      @order_1.reload
+
+      expect(@order_1.status).to eq('fulfilled')
+    end
   end
 end

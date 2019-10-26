@@ -25,7 +25,7 @@ describe ItemOrder, type: :model do
       expect(item_order_1.subtotal).to eq(200)
     end
 
-    it 'fulfill' do
+    it 'fulfillment' do
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
