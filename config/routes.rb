@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   patch '/profile/:user_id/password', to: 'users#update'
 
   namespace :admin do
+    get '/orders/:order_id/ship', to: 'orders#ship'
     get '/users/:user_id', to: 'users#show'
     get '/users', to: 'dashboard#index'
     get '/users/:user_id/edit', to: 'users#edit'
