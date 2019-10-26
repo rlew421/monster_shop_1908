@@ -19,7 +19,8 @@ class OrdersController <ApplicationController
         order.item_orders.create({
           item: item,
           quantity: quantity,
-          price: item.price
+          price: item.price,
+          merchant: item.merchant
           })
       end
       cart.items.each do |item, quantity|
