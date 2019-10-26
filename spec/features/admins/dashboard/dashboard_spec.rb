@@ -279,12 +279,28 @@ RSpec.describe "admin dashboard" do
     end
 
     visit '/admin'
- 
+
     within "#cancelled" do
       within "#orders-#{@order_4.id}" do
         click_link "#{@user_3.name}"
         expect(current_path).to eq("/admin/users/#{@user_3.id}")
       end
+    end
+  end
+
+  it 'admin can ship an order' do
+    within "#packaged" do
+      within "#orders-#{@order_1.id}" do
+        click_link 'Ship Order'
+      end
+    end
+
+    within "#packaged" do
+      expect(page).to_not have_css("#orders-#{@order_1.id}")
+    end
+
+    within "#shipped" do
+      expect(page).to have_css("#orders-#{@order_1.id}")
     end
   end
 end

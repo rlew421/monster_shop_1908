@@ -17,6 +17,7 @@
       <p>Placed by: <%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
       <p>Order ID: <%= order.id %></p>
       <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal)%></p>
+      <p><%= link_to 'Ship Order', "/admin/orders/#{order.id}/ship" %><p>
     </section>
   <% end %>
 </section>
