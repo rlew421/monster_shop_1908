@@ -17,6 +17,19 @@ describe User do
     it { should validate_presence_of :password }
   end
 
+  describe "instance methods" do
+    it 'role_upgrade' do
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      user = User.create(name: 'Joey', address: '76 Pizza Place', city: 'Brooklyn', state: 'New York', zip: '10231', email: 'estelles_best_actor@gmail.com', password: 'letseat')
+
+    expect(user.role).to eq("default")
+    user.role_upgrade(meg.id, 1)
+    expect(user.role).to eq("merchant_employee")
+
+    end
+  end
+
+
   describe 'roles' do
     it 'can be created as a regular user' do
       user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
@@ -27,7 +40,6 @@ describe User do
 
     it 'can be created as a merchant employee' do
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
-
       user = meg.users.create(name: 'Joey', address: '76 Pizza Place', city: 'Brooklyn', state: 'New York', zip: '10231', email: 'estelles_best_actor@gmail.com', password: 'letseat', role: 1)
 
       expect(user.role).to eq('merchant_employee')
