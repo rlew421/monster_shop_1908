@@ -9,6 +9,11 @@ RSpec.describe "admin dashboard" do
     @user_1 = User.create(name: 'Richy Rich', address: '102 Main St', city: 'NY', state: 'New York', zip: '10221', email: "young_money99@gmail.com", password: "momoneymoprobz")
     @user_2 = User.create(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221', email: "alice_in_the_sky@gmail.com", password: "cheshirecheezin")
     @user_3 = User.create(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221', email: "its_always_sonny@gmail.com", password: "beatz")
+    visit '/'
+    click_link 'Login'
+    fill_in :email, with: @admin.email
+    fill_in :password, with: @admin.password
+    click_button 'Log In'
   end
 
   it "I can see all default users with their info and perform the following actions:
@@ -186,13 +191,6 @@ RSpec.describe "admin dashboard" do
   end
 
   it "can edit default user password" do
-    visit '/merchants'
-    click_link 'Login'
-
-    fill_in :email, with: @admin.email
-    fill_in :password, with: @admin.password
-    click_button 'Log In'
-
     visit '/admin/users'
 
     within "#users-#{@user_1.id}" do
@@ -207,11 +205,21 @@ RSpec.describe "admin dashboard" do
     fill_in 'Password', with: "newpasswordwhodis"
     fill_in 'Password confirmation', with: "newpasswordwhodis"
     click_button 'Submit Changes'
-    
+
     @user_1.reload
 
     expect(current_path).to eq('/admin/users')
     expect(page).to have_content("You have successfully updated #{@user_1.name}'s password!")
-    expect(@user_1.password).to eq("newpasswordwhodis")
+
+    click_link 'Log Out'
+
+    visit '/'
+    click_link 'Login'
+
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: 'newpasswordwhodis'
+    click_button 'Log In'
+    expect(current_path).to eq("/profile/#{@user_1.id}")
+    expect(page).to have_content('Welcome, Richy Rich! You are logged in.')
   end
 end
