@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   patch '/profile/:user_id/password', to: 'users#update'
 
   namespace :admin do
+    get '/users/:user_id', to: 'users#show'
     get '/users', to: 'dashboard#index'
     get '/users/:user_id', to: 'users#show'
     get '/users/:user_id/edit', to: 'users#edit'
@@ -56,5 +57,6 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#show'
+    get '/items', to: 'items#index'
   end
 end
