@@ -149,4 +149,69 @@ RSpec.describe "admin dashboard" do
     expect(current_path).to eq('/admin/users')
     expect(@user_3.role).to eq("merchant_admin")
   end
+
+  it "can edit default user profile" do
+    visit '/admin/users'
+
+    within "#users-#{@user_1.id}" do
+      click_link "Edit Profile"
+    end
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
+
+    expect(find_field('Name').value).to eq "Richy Rich"
+    expect(find_field('Address').value).to eq "102 Main St"
+    expect(find_field('City').value).to eq "NY"
+    expect(find_field('State').value).to eq "New York"
+    expect(find_field('Zip').value).to eq "10221"
+    expect(find_field('Email').value).to eq "young_money99@gmail.com"
+
+    fill_in 'Name', with: "Poory Poor"
+    fill_in 'Address', with: "104 Not Main St"
+    fill_in 'Zip', with: "10221"
+    fill_in 'Email', with: "old_money99@gmail.com"
+
+    click_button 'Submit Changes'
+
+    expect(current_path).to eq('/admin/users')
+
+    within "#users-#{@user_1.id}" do
+      expect(current_path).to eq('/admin/users')
+      expect(page).to have_content("Poory Poor")
+      expect(page).to have_content("104 Not Main St")
+      expect(page).to have_content("NY")
+      expect(page).to have_content("New York")
+      expect(page).to have_content("10221")
+      expect(page).to have_content("old_money99@gmail.com")
+    end
+  end
+
+  it "can edit default user password" do
+    visit '/merchants'
+    click_link 'Login'
+
+    fill_in :email, with: @admin.email
+    fill_in :password, with: @admin.password
+    click_button 'Log In'
+
+    visit '/admin/users'
+
+    within "#users-#{@user_1.id}" do
+      click_link "Edit Password"
+    end
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit/password")
+
+    expect(page).to have_field('Password')
+    expect(page).to have_field('Password confirmation')
+
+    fill_in 'Password', with: "newpasswordwhodis"
+    fill_in 'Password confirmation', with: "newpasswordwhodis"
+    click_button 'Submit Changes'
+    
+    @user_1.reload
+
+    expect(current_path).to eq('/admin/users')
+    expect(page).to have_content("You have successfully updated #{@user_1.name}'s password!")
+    expect(@user_1.password).to eq("newpasswordwhodis")
+  end
 end
