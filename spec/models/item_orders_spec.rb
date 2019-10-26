@@ -22,7 +22,7 @@ describe ItemOrder, type: :model do
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
       order_1 = user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
-      item_order_1 = order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2, merchant: meg) 
+      item_order_1 = order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2, merchant: meg)
 
       expect(item_order_1.subtotal).to eq(200)
     end
@@ -45,17 +45,17 @@ describe ItemOrder, type: :model do
       order_2 = @user_2.orders.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
       order_3 = @user.orders.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
 
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 20)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
+      order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 20, merchant: @brian)
 
-      order_2.item_orders.create!(item: @shifter, price: @shifter.price, quantity: 18)
-      order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 1)
-      order_2.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2)
+      order_2.item_orders.create!(item: @shifter, price: @shifter.price, quantity: 18, merchant: @meg)
+      order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 1, merchant: @meg)
+      order_2.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2, merchant: @brian)
 
-      order_3.item_orders.create!(item: @dog_treats, price: @dog_treats.price, quantity: 15)
-      order_3.item_orders.create!(item: @frisbee, price: @frisbee.price, quantity: 5)
+      order_3.item_orders.create!(item: @dog_treats, price: @dog_treats.price, quantity: 15, merchant: @brian)
+      order_3.item_orders.create!(item: @frisbee, price: @frisbee.price, quantity: 5, merchant: @brian)
 
       expect(ItemOrder.where(item_id: @pull_toy.id).where(order_id: order_1.id).first.status).to eq('pending')
       expect(ItemOrder.where(item_id: @tire.id).where(order_id: order_1.id).first.status).to eq('pending')

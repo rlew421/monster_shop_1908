@@ -43,16 +43,17 @@ describe Order, type: :model do
       @order_1.reload
 
       expect(@order_1.status).to eq('fulfilled')
+    end 
 
     it 'merchant item_count' do
       expect(@order_1.item_count).to eq(2)
     end
-    
+
     it 'merchant item quantity' do
       expect(@order_1.merchant_item_quantity(@meg)).to eq(2)
       expect(@order_1.merchant_item_quantity(@brian)).to eq(3)
     end
-    
+
     it 'merchant total value' do
       expect(@order_1.merchant_total_value(@meg)).to eq(200)
       expect(@order_1.merchant_total_value(@brian)).to eq(30)
