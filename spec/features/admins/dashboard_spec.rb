@@ -291,5 +291,41 @@ RSpec.describe "admin dashboard" do
         expect(page).to have_content("Creation Date: #{@order_4.created_at.to_formatted_s(:long_ordinal)}")
       end
     end
+
+
+    within "#packaged" do
+      within "#orders-#{@order_1.id}" do
+        click_link "#{@user_1.name}"
+        expect(current_path).to eq("/admin/users/#{@user_1.id}")
+      end
+    end
+
+
+    visit '/admin'
+
+    within "#pending" do
+      within "#orders-#{@order_2.id}" do
+        click_link "#{@user_2.name}"
+        expect(current_path).to eq("/admin/users/#{@user_2.id}")
+      end
+    end
+
+    visit '/admin'
+
+    within "#shipped" do
+      within "#orders-#{@order_3.id}" do
+        click_link "#{@user_3.name}"
+        expect(current_path).to eq("/admin/users/#{@user_3.id}")
+      end
+    end
+
+    visit '/admin'
+ 
+    within "#cancelled" do
+      within "#orders-#{@order_4.id}" do
+        click_link "#{@user_3.name}"
+        expect(current_path).to eq("/admin/users/#{@user_3.id}")
+      end
+    end
   end
 end
