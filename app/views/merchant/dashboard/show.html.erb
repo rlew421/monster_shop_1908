@@ -1,8 +1,17 @@
 <h2>Merchant Dashboard!</h2>
 <section>
-  <p>Employer: <%= @user.merchants.first.name %></p>
-  <p>Address:  <%= @user.merchants.first.address %></p>
-  <p>City:  <%= @user.merchants.first.city %></p>
-  <p>State:  <%= @user.merchants.first.state %> </p>
-  <p>Zip Code: <%= @user.merchants.first.zip %> </p>
+  <p>Employer: <%= @merchant.name %></p>
+  <p>Address:  <%= @merchant.address %></p>
+  <p>City:  <%= @merchant.city %></p>
+  <p>State:  <%= @merchant.state %> </p>
+  <p>Zip Code: <%= @merchant.zip %> </p>
 </section>
+
+<% @orders.each do |order| %>
+  <section id="order-<%=order.id%>">
+    <p>Order ID:  <%= link_to order.id, "/merchant/orders/order.id"%></p>
+    <p>Date of Order:  <%= order.created_at.to_formatted_s(:long_ordinal) %></p>
+    <p>My Item Quantity: <%= order.merchant_item_quantity(@merchant) %>   </p>
+    <p>My Total Value: <%= number_to_currency(order.merchant_total_value(@merchant)) %>   </p>
+  </section>
+<% end %>

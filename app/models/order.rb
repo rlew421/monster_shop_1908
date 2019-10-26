@@ -13,4 +13,13 @@ class Order <ApplicationRecord
   def item_count
     items.length
   end
+
+  def merchant_item_quantity(merchant)
+    item_orders.joins(:items).where("items.merchant_id = #{merchant.id}").sum(:quantity)
+  end
+
+  def merchant_total_value(merchant)
+    item_orders.joins(:items).where("items.merchant_id = #{merchant.id}").sum('price * quantity')
+  end
+
 end
