@@ -19,13 +19,13 @@ describe 'As a registered user I am sent to my orders page after creating an ord
     order_2 = @user.orders.create!(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221' )
     order_3 = @user.orders.create!(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221' )
 
-    tire.item_orders.create(quantity: 2, price: 100.00, order_id: order_1.id)
-    chain.item_orders.create(quantity: 1, price: 25.05, order_id: order_1.id)
-    shifter.item_orders.create(quantity: 3, price: 150.00, order_id: order_2.id)
+    tire.item_orders.create(quantity: 2, price: 100.00, order_id: order_1.id, merchant: bike_shop)
+    chain.item_orders.create(quantity: 1, price: 25.05, order_id: order_1.id, merchant: bike_shop)
+    shifter.item_orders.create(quantity: 3, price: 150.00, order_id: order_2.id, merchant: bike_shop)
 
-    tire.item_orders.create(quantity: 2, price: 100.00, order_id: order_2.id)
-    chain.item_orders.create(quantity: 1, price: 25.05, order_id: order_2.id)
-    shifter.item_orders.create(quantity: 3, price: 150.00, order_id: order_3.id)
+    tire.item_orders.create(quantity: 2, price: 100.00, order_id: order_2.id, merchant: bike_shop)
+    chain.item_orders.create(quantity: 1, price: 25.05, order_id: order_2.id, merchant: bike_shop)
+    shifter.item_orders.create(quantity: 3, price: 150.00, order_id: order_3.id, merchant: bike_shop)
 
 
     visit "/profile/orders"
@@ -57,7 +57,7 @@ describe 'As a registered user I am sent to my orders page after creating an ord
 
       expect(current_path).to eq("/profile/orders/#{order_2.id}")
     end
-    
+
     visit "/profile/orders"
     within "#orders-#{order_3.id}" do
       expect(page).to have_content("Order ID: #{order_3.id}")

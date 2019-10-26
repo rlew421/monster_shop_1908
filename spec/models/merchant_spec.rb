@@ -12,6 +12,7 @@ describe Merchant, type: :model do
   describe "relationships" do
     it { should have_many :items }
     it { should have_many :employments }
+    it { should have_many :item_orders }
     it { should have_many(:users).through(:employments)}
   end
 
@@ -26,7 +27,7 @@ describe Merchant, type: :model do
 
 
       order_1 = user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
-      item_order_1 = order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      item_order_1 = order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
 
       expect(@meg.no_orders?).to eq(false)
     end
@@ -50,9 +51,9 @@ describe Merchant, type: :model do
       order_1 = user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
       order_2 = user.orders.create!(name: 'Brian', address: '123 Brian Ave', city: 'Denver', state: 'CO', zip: 17033)
       order_3 = user.orders.create!(name: 'Dao', address: '123 Mike Ave', city: 'Denver', state: 'CO', zip: 17033)
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      order_2.item_orders.create!(item: chain, price: chain.price, quantity: 2)
-      order_3.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
+      order_2.item_orders.create!(item: chain, price: chain.price, quantity: 2, merchant: @meg)
+      order_3.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
 
       expect(@meg.distinct_cities).to contain_exactly("Denver","Hershey")
     end

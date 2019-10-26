@@ -18,10 +18,10 @@ describe 'when I visit merchant dashboard' do
     @order_2 = user.orders.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
     @order_3 = user.orders.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
 
-    @order_1.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 3)
-    @order_2.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 2)
-    @order_2.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 2)
-    @order_3.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 5)
+    @order_1.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 3, merchant: pawty_city)
+    @order_2.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 2, merchant: dog_shop)
+    @order_2.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 2, merchant: pawty_city)
+    @order_3.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 5, merchant: dog_shop)
   end
   it 'displays name and address of the merchant I work fo as an employee' do
     visit '/'
