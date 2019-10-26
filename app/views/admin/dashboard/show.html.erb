@@ -14,7 +14,7 @@
   <h4>Packaged:</h4>
   <% @packaged.each do |order| %>
     <section id="orders-<%= order.id %>">
-      <p>Placed by: <%= link_to order.user.name, "/admin/users/order.user.id" %></p>
+      <p>Placed by: <%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
       <p>Order ID: <%= order.id %></p>
       <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal)%></p>
     </section>
@@ -26,7 +26,7 @@
   <% if !@pending.nil? %>
     <% @pending.each do |order| %>
       <section id="orders-<%= order.id %>">
-        <p>Placed by: <%= link_to order.user.name, "/admin/users/order.user.id" %></p>
+        <p>Placed by: <%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
         <p>Order ID: <%= order.id %></p>
         <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal)%></p>
       </section>
@@ -39,7 +39,7 @@
   <% if !@shipped.nil? %>
     <% @shipped.each do |order| %>
       <section id="orders-<%= order.id %>">
-        <p>Placed by: <%= link_to order.user.name, "/admin/users/order.user.id" %></p>
+        <p>Placed by: <%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
         <p>Order ID: <%= order.id %></p>
         <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal)%></p>
       </section>
@@ -52,7 +52,7 @@
   <% if !@cancelled.nil? %>
   <% @cancelled.each do |order| %>
       <section id="orders-<%= order.id %>">
-        <p>Placed by: <%= link_to order.user.name, "/admin/users/order.user.id" %></p>
+        <p>Placed by: <%= link_to order.user.name, "/admin/users/#{order.user.id}" %></p>
         <p>Order ID: <%= order.id %></p>
         <p>Creation Date: <%= order.created_at.to_formatted_s(:long_ordinal)%></p>
       </section>
