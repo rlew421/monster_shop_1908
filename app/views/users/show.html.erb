@@ -8,7 +8,8 @@
 <p>City: <%= @user.city %></p>
 <p>State: <%= @user.state %></p>
 <p>Zip Code: <%= @user.zip %></p>
-<p>E-mail: <%= @user.email %></p><hr>
+<p>E-mail: <%= @user.email %></p>
+<p>Role: <%= @user.role %></p><hr>
 
 <%= link_to "Edit Profile", "/profile/#{@user.id}/edit" %>
 <%= link_to "Edit Password", "/profile/#{@user.id}/edit/password" %>
