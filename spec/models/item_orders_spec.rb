@@ -6,6 +6,7 @@ describe ItemOrder, type: :model do
     it { should validate_presence_of :item_id }
     it { should validate_presence_of :price }
     it { should validate_presence_of :quantity }
+    it { should validate_presence_of :status }
   end
 
   describe "relationships" do
@@ -60,7 +61,6 @@ describe ItemOrder, type: :model do
       expect(ItemOrder.where(item_id: @tire.id).where(order_id: order_2.id).first.status).to eq('pending')
       expect(ItemOrder.where(item_id: @pull_toy.id).where(order_id: order_2.id).first.status).to eq('pending')
       expect(ItemOrder.where(item_id: @shifter.id).where(order_id: order_2.id).first.status).to eq('pending')
-
 
       ItemOrder.fulfillment(@tire.id, order_1.id)
       ItemOrder.fulfillment(@pull_toy.id, order_1.id)
