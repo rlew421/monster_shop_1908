@@ -34,4 +34,10 @@ class Admin::UsersController < Admin::BaseController
     end
     redirect_to '/admin/users'
   end
+
+  private
+
+  def user_params
+    params.permit(:name, :city, :address, :city, :state, :zip, :email, :password, :password_confirmation)
+  end
 end
