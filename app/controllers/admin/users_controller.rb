@@ -36,7 +36,6 @@ class Admin::UsersController < Admin::BaseController
 
   def upgrade
     user = User.find(params[:user_id])
-    binding.pry
     original_role = user.role
     user.role_upgrade(user_params[:merchant], user_params[:role])
 
