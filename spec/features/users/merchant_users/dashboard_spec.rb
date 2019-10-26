@@ -30,7 +30,8 @@ describe 'when I visit merchant dashboard' do
     @order_2.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 2, merchant: pawty_city)
     @order_3.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 5, merchant: dog_shop)
   end
-  it 'displays name and address of the merchant I work fo as an employee' do
+
+  it 'displays name and address of the merchant I work for as an employee' do
     visit '/'
     click_link 'Login'
 
@@ -45,6 +46,7 @@ describe 'when I visit merchant dashboard' do
     expect(page).to have_content('State: PA')
     expect(page).to have_content('Zip Code: 80203')
   end
+
   it 'displays name and address of the merchant I work for as an admin' do
 
     visit '/'
@@ -62,6 +64,7 @@ describe 'when I visit merchant dashboard' do
     expect(page).to have_content('State: CO')
     expect(page).to have_content('Zip Code: 80203')
   end
+
   it 'as a merchant employee I see pending orders with my items' do
     visit '/'
     click_link 'Login'
@@ -85,6 +88,21 @@ describe 'when I visit merchant dashboard' do
       expect(page).to have_content("My Total Value: $100.00")
     end
   end
+
+  it "I can click a link to view my own items" do
+    visit '/'
+    click_link 'Login'
+
+    fill_in :email, with: @merchant_admin.email
+    fill_in :password, with: @merchant_admin.password
+    click_button 'Log In'
+
+    visit '/merchant'
+
+    click_link 'View My Items'
+    expect(current_path).to eq('/merchant/items')
+  end
+
   it 'as a merchant admin I see pending orders with my items' do
     visit '/'
     click_link 'Login'
@@ -108,5 +126,4 @@ describe 'when I visit merchant dashboard' do
       expect(page).to have_content("My Total Value: $20.00")
     end
   end
-
 end
