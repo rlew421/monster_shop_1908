@@ -19,7 +19,9 @@ describe 'logout' do
       expect(page).to have_link('Cart: 0')
     end
     it 'logs out a merchant user' do
-      merchant_user = User.create!(name: 'Leslie', address: '252 Pawnee Avenue', city: 'Pawnee', state: 'Indiana', zip: '80503', email: 'leslieknope@gmail.com', password: 'waffles', role: 1)
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+
+      merchant_user = meg.users.create!(name: 'Leslie', address: '252 Pawnee Avenue', city: 'Pawnee', state: 'Indiana', zip: '80503', email: 'leslieknope@gmail.com', password: 'waffles', role: 1)
       visit '/'
       click_link 'Login'
       fill_in :email, with: merchant_user.email
@@ -35,7 +37,7 @@ describe 'logout' do
       expect(page).to have_content('You have been logged out.')
       expect(page).to have_link('Cart: 0')
     end
-    it 'logs out a regular user' do
+    it 'logs out an admin user' do
       admin_user = User.create!(name: 'Sabrina', address: '66 Witches Way', city: 'Greendale', state: 'West Virginia', zip: '26210', email: 'spellcaster23@gmail.com', password: 'salem', role: 3)
       visit '/'
       click_link 'Login'
