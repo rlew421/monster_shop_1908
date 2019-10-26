@@ -1,1 +1,12 @@
-<h1>Admin User Profile</h1>
+<h1>Hello, <%= @user.name %>!</h1>
+
+<% if !@user.orders.empty? %>
+  <%= link_to 'My Orders', "/profile/orders" %>
+<% end %>
+
+<p>Address: <%= @user.address %></p>
+<p>City: <%= @user.city %></p>
+<p>State: <%= @user.state %></p>
+<p>Zip Code: <%= @user.zip %></p>
+<p>E-mail: <%= @user.email %></p>
+<p>Role: <%= @user.role %></p><hr>

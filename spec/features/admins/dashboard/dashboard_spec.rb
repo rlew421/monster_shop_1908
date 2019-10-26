@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.describe "admin dashboard" do
   before(:each) do
     @admin = User.create(name: 'Monica', address: '75 Chef Ave', city: 'Utica', state: 'New York', zip: '45827', email: 'cleaner@gmail.com', password: 'monmon', role: 3)
-
-    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
-
     @user_1 = User.create(name: 'Richy Rich', address: '102 Main St', city: 'NY', state: 'New York', zip: '10221', email: "young_money99@gmail.com", password: "momoneymoprobz")
     @user_2 = User.create(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221', email: "alice_in_the_sky@gmail.com", password: "cheshirecheezin")
     @user_3 = User.create(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221', email: "its_always_sonny@gmail.com", password: "beatz")
@@ -63,8 +60,7 @@ RSpec.describe "admin dashboard" do
     expect(page).to have_content(@user_1.email)
     expect(page).to have_link("Edit Profile")
     expect(page).to have_link("Edit Password")
-    expect(page).to have_link("Upgrade to Merchant Employee")
-    expect(page).to have_link("Upgrade to Merchant Admin")
+    expect(page).to have_link("Upgrade to Merchant User")
 
     click_link "Edit Profile"
     expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
@@ -88,8 +84,7 @@ RSpec.describe "admin dashboard" do
     expect(page).to have_content(@user_2.email)
     expect(page).to have_link("Edit Profile")
     expect(page).to have_link("Edit Password")
-    expect(page).to have_link("Upgrade to Merchant Employee")
-    expect(page).to have_link("Upgrade to Merchant Admin")
+    expect(page).to have_link("Upgrade to Merchant User")
 
     click_link "Edit Profile"
     expect(current_path).to eq("/admin/users/#{@user_2.id}/edit")
@@ -113,8 +108,7 @@ RSpec.describe "admin dashboard" do
     expect(page).to have_content(@user_3.email)
     expect(page).to have_link("Edit Profile")
     expect(page).to have_link("Edit Password")
-    expect(page).to have_link("Upgrade to Merchant Employee")
-    expect(page).to have_link("Upgrade to Merchant Admin")
+    expect(page).to have_link("Upgrade to Merchant User")
 
     click_link "Edit Profile"
     expect(current_path).to eq("/admin/users/#{@user_3.id}/edit")
@@ -128,62 +122,27 @@ RSpec.describe "admin dashboard" do
    end
  end
 
-  it "can upgrade default user to merchant employee" do
+  it "can upgrade default user to merchant user" do
     visit '/admin/users'
 
     within "#users-#{@user_1.id}" do
-      click_link "Upgrade to Merchant Employee"
-     end
-     @user_1.reload
-     expect(current_path).to eq('/admin/users')
-     expect(@user_1.role).to eq("merchant_employee")
+      click_link "Upgrade to Merchant User"
+      expect(current_path).to eq("/admin/users/#{@user_1.id}/edit_role")
+    end
 
     visit '/admin/users'
 
     within "#users-#{@user_2.id}" do
-      click_link "Upgrade to Merchant Employee"
-      @user_2.reload
-     end
-     expect(current_path).to eq('/admin/users')
-     expect(@user_2.role).to eq("merchant_employee")
+      click_link "Upgrade to Merchant User"
+      expect(current_path).to eq("/admin/users/#{@user_2.id}/edit_role")
+    end
 
     visit '/admin/users'
 
     within "#users-#{@user_3.id}" do
-     click_link "Upgrade to Merchant Employee"
-     @user_3.reload
+     click_link "Upgrade to Merchant User"
+     expect(current_path).to eq("/admin/users/#{@user_3.id}/edit_role")
     end
-    expect(current_path).to eq('/admin/users')
-    expect(@user_3.role).to eq("merchant_employee")
-  end
-
-  it "can upgrade default user to merchant admin" do
-    visit '/admin/users'
-
-    within "#users-#{@user_1.id}" do
-    click_link "Upgrade to Merchant Admin"
-    end
-    @user_1.reload
-    expect(current_path).to eq('/admin/users')
-    expect(@user_1.role).to eq("merchant_admin")
-
-    visit '/admin/users'
-
-    within "#users-#{@user_2.id}" do
-    click_link "Upgrade to Merchant Admin"
-    @user_2.reload
-    end
-    expect(current_path).to eq('/admin/users')
-    expect(@user_2.role).to eq("merchant_admin")
-
-    visit '/admin/users'
-
-    within "#users-#{@user_3.id}" do
-    click_link "Upgrade to Merchant Admin"
-    @user_3.reload
-    end
-    expect(current_path).to eq('/admin/users')
-    expect(@user_3.role).to eq("merchant_admin")
   end
 
   it "can edit default user profile" do
