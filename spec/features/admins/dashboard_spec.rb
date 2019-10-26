@@ -4,7 +4,7 @@ RSpec.describe "admin dashboard" do
   before(:each) do
     @admin = User.create(name: 'Monica', address: '75 Chef Ave', city: 'Utica', state: 'New York', zip: '45827', email: 'cleaner@gmail.com', password: 'monmon', role: 3)
 
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
 
     @user_1 = User.create(name: 'Richy Rich', address: '102 Main St', city: 'NY', state: 'New York', zip: '10221', email: "young_money99@gmail.com", password: "momoneymoprobz")
     @user_2 = User.create(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221', email: "alice_in_the_sky@gmail.com", password: "cheshirecheezin")
