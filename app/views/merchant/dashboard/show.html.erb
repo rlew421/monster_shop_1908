@@ -1,9 +1,8 @@
 <h2>Merchant Dashboard!</h2>
 <section>
-  <p> <%= @user.name %> </p>
-  <p>Address: <%= @user.address %> </p>
-  <p>City: <%= @user.city %> </p>
-  <p>State: <%= @user.state %> </p>
-  <p>Zip Code: <%= @user.zip%> </p>
-  <p>E-mail: <%= @user.email %> </p>
+  <p>Employer: <%= @user.merchants.first.name %></p>
+  <p>Address:  <%= @user.merchants.first.address %></p>
+  <p>City:  <%= @user.merchants.first.city %></p>
+  <p>State:  <%= @user.merchants.first.state %> </p>
+  <p>Zip Code: <%= @user.merchants.first.zip %> </p>
 </section>

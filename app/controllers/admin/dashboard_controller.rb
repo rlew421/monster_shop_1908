@@ -1,6 +1,6 @@
 class Admin::DashboardController < Admin::BaseController
   def show
-    @user = User.find(params[:admin_id])
+    @user = User.find(session[:user_id])
   end
 
   def index

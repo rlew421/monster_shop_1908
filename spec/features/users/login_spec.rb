@@ -24,7 +24,7 @@ describe 'Login' do
       expect(page).to have_content('Zip Code: 96701')
       expect(page).to have_content('E-mail: pattimonkey34@gmail.com')
     end
-    
+
     it 'cannot log in with invalid credentials' do
 
       visit '/'
@@ -49,52 +49,57 @@ describe 'Login' do
   end
 
   describe "as a Merchant User" do
-    before(:each) do
-      @merchant_user = User.create!(name: 'Leslie', address: '252 Pawnee Avenue', city: 'Pawnee', state: 'Indiana', zip: '80503', email: 'leslieknope@gmail.com', password: 'waffles', role: 1)
-    end
     it "can login with valid credentials" do
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd', city: 'Denver', state: 'CO', zip: 80203)
+      merchant_user = meg.users.create!(name: 'Leslie', address: '252 Pawnee Avenue', city: 'Pawnee', state: 'Indiana', zip: '80503', email: 'leslieknope@gmail.com', password: 'waffles', role: 1)
 
       visit '/'
 
       click_link 'Login'
 
-      fill_in :email, with: @merchant_user.email
-      fill_in :password, with: @merchant_user.password
+      fill_in :email, with: merchant_user.email
+      fill_in :password, with: merchant_user.password
       click_button 'Log In'
 
-      expect(current_path).to eq("/merchant/#{@merchant_user.id}")
+      expect(current_path).to eq("/merchant")
       expect(page).to have_content('Welcome, Leslie! You are logged in.')
-      expect(page).to have_content('Address: 252 Pawnee Avenue')
-      expect(page).to have_content('City: Pawnee')
-      expect(page).to have_content('State: Indiana')
-      expect(page).to have_content('Zip Code: 80503')
-      expect(page).to have_content('E-mail: leslieknope@gmail.com')
+      expect(page).to have_content("Employer: Meg's Bike Shop")
+      expect(page).to have_content('Address: 123 Bike Rd')
+      expect(page).to have_content('City: Denver')
+      expect(page).to have_content('State: CO')
+      expect(page).to have_content('Zip Code: 80203')
     end
     it 'redirects to merchant dashboard if I am already logged in' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      merchant_user = meg.users.create!(name: 'Leslie', address: '252 Pawnee Avenue', city: 'Pawnee', state: 'Indiana', zip: '80503', email: 'leslieknope@gmail.com', password: 'waffles', role: 1)
+      visit '/'
+
+      click_link 'Login'
+
+      fill_in :email, with: merchant_user.email
+      fill_in :password, with: merchant_user.password
+      click_button 'Log In'
 
       visit '/login'
 
-      expect(current_path).to eq("/merchant/#{@merchant_user.id}")
+      expect(current_path).to eq("/merchant")
       expect(page).to have_content('You are already logged in.')
     end
   end
 
   describe "as an Admin User" do
-    before(:each) do
-      @admin_user = User.create!(name: 'Sabrina', address: '66 Witches Way', city: 'Greendale', state: 'West Virginia', zip: '26210', email: 'spellcaster23@gmail.com', password: 'salem', role: 3)
-    end
     it "can login with valid credentials" do
+      admin_user = User.create!(name: 'Sabrina', address: '66 Witches Way', city: 'Greendale', state: 'West Virginia', zip: '26210', email: 'spellcaster23@gmail.com', password: 'salem', role: 3)
 
       visit '/'
 
       click_link 'Login'
 
-      fill_in :email, with: @admin_user.email
-      fill_in :password, with: @admin_user.password
+      fill_in :email, with: admin_user.email
+      fill_in :password, with: admin_user.password
       click_button 'Log In'
 
-      expect(current_path).to eq("/admin/#{@admin_user.id}")
+      expect(current_path).to eq("/admin")
       expect(page).to have_content('Welcome, Sabrina! You are logged in.')
       expect(page).to have_content('Address: 66 Witches Way')
       expect(page).to have_content('City: Greendale')
@@ -103,11 +108,18 @@ describe 'Login' do
       expect(page).to have_content('E-mail: spellcaster23@gmail.com')
     end
     it 'redirects to merchant dashboard if I am already logged in' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
+      admin_user = User.create!(name: 'Sabrina', address: '66 Witches Way', city: 'Greendale', state: 'West Virginia', zip: '26210', email: 'spellcaster23@gmail.com', password: 'salem', role: 3)
+      visit '/'
+
+      click_link 'Login'
+
+      fill_in :email, with: admin_user.email
+      fill_in :password, with: admin_user.password
+      click_button 'Log In'
 
       visit '/login'
 
-      expect(current_path).to eq("/admin/#{@admin_user.id}")
+      expect(current_path).to eq("/admin")
       expect(page).to have_content('You are already logged in.')
     end
   end
