@@ -1,5 +1,12 @@
 class Admin::MerchantsController < Admin::BaseController
 
+  def show
+    @merchant = Merchant.find(params[:merchant_id])
+    order_ids = Order.joins(:items).where("items.merchant_id = #{@merchant.id}").pluck(:id)
+    @orders = Order.find(order_ids)
+  end
+
+
   def update_status
     merchant = Merchant.find(params[:merchant_id])
     if merchant.status == 'disabled'
@@ -17,5 +24,6 @@ class Admin::MerchantsController < Admin::BaseController
     end
     redirect_to '/merchants'
   end
+
 
 end
