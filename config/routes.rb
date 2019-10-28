@@ -61,5 +61,6 @@ Rails.application.routes.draw do
     get '/items', to: 'items#index'
     get '/items/:item_id/deactivate', to: 'items#update_status'
     get '/items/:item_id/activate', to: 'items#update_status'
+    delete '/items/:item_id', to: 'items#destroy'
   end
 end
