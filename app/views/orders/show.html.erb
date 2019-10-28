@@ -59,6 +59,6 @@
   <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
 </section>
 
-<% if @order.status == 'pending' %>
+<% if @order.status == 'pending' || @order.status == 'packaged' %>
   <%= link_to 'Cancel Order', "/cancel/#{@order.id}", method: :delete  %>
 <% end %>
