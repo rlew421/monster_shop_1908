@@ -54,11 +54,12 @@ Rails.application.routes.draw do
     get '/users/:user_id/edit_role', to: 'users#edit_role'
     patch '/users/:user_id/upgrade', to: 'users#upgrade'
     get '/', to: 'dashboard#show'
-    # get '/merchants', to: 'merchant#index'
   end
 
   namespace :merchant do
     get '/', to: 'dashboard#show'
     get '/items', to: 'items#index'
+    get '/items/:item_id/deactivate', to: 'items#update_status'
+    get '/items/:item_id/activate', to: 'items#update_status'
   end
 end
