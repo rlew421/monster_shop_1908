@@ -17,6 +17,7 @@ class Merchant::ItemsController < Merchant::BaseController
       redirect_to '/merchant/items'
     else
       flash[:error] = @new_item.errors.full_messages.to_sentence
+      render :new
     end
   end
 
