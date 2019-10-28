@@ -50,6 +50,11 @@ Rails.application.routes.draw do
     get '/users/:user_id/upgrade_merchant_employee', to: 'users#upgrade'
     get '/users/:user_id/upgrade_merchant_admin', to: 'users#upgrade'
     get '/', to: 'dashboard#show'
+    get '/merchants/:merchant_id', to: 'merchants#show'
+  end
+
+  scope :admin do
+    get '/merchants/:merchant_id/items', to: 'merchant/items#index'
   end
 
   namespace :merchant do
