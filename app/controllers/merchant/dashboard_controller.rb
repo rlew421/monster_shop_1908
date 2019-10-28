@@ -1,7 +1,6 @@
 class Merchant::DashboardController < Merchant::BaseController
   def show
-    @user = User.find(session[:user_id])
-    @merchant = @user.merchants.first
+    @merchant = Merchant.find(current_user.merchant_id)
     order_ids = Order.joins(:items).where("items.merchant_id = #{@merchant.id}").pluck(:id)
     @orders = Order.find(order_ids)
   end
