@@ -77,6 +77,7 @@ RSpec.describe 'Cart show' do
         end
 
         expect(current_path).to eq("/cart")
+        expect(page).to have_content("You have reached the inventory limit for Lined Paper!")
         within "#cart-item-#{@paper.id}" do
           expect(page).to have_content("3")
         end
@@ -89,6 +90,7 @@ RSpec.describe 'Cart show' do
           click_on "-"
         end
 
+        expect(page).to have_content("Lined Paper has been removed from your cart.")
         expect(current_path).to eq("/cart")
         expect(page).to_not have_css("#cart-item-#{@paper.id}")
       end
