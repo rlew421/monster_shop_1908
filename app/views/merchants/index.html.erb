@@ -9,13 +9,11 @@
         <h2><%=link_to merchant.name, "/merchants/#{merchant.id}"%></h2>
       <% end %>
     <section class = "grid-item" id='merchant-<%= merchant.id %>'>
-      <h2><%=link_to merchant.name, "/merchants/#{merchant.id}"%></h2>
       <% if current_admin? && merchant.status == 'enabled' %>
         <%= link_to 'Disable', "/admin/merchants/#{merchant.id}/update_status" %>
       <% elsif current_admin? && merchant.status == 'disabled' %>
         <%= link_to 'Enable', "/admin/merchants/#{merchant.id}/update_status" %>
       <% end  %>
-
     </section>
   <% end %>
 </section>
