@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'merchants can activate and deactivate items' do
-  it 'merchant can deactivate item from merchant item index' do
+  before(:each) do
     @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     merchant_admin = @meg.users.create(name: 'Ross', address: '56 HairGel Ave', city: 'Las Vegas', state: 'Nevada', zip: '65041', email: 'dinosaurs_rule@gmail.com', password: 'rachel', role: 2)
 
@@ -16,7 +16,8 @@ describe 'merchants can activate and deactivate items' do
     fill_in :password, with: merchant_admin.password
     click_button 'Log In'
     visit "/merchant/items"
-
+  end
+  it 'merchant can deactivate item from merchant item index' do
 
     within "#item-#{@shifter.id}" do
       expect(page).to have_link 'Activate'
@@ -35,6 +36,19 @@ describe 'merchants can activate and deactivate items' do
     expect(page).to have_content("Chain is no longer for sale.")
 
     expect(@chain.active?).to eq(false)
+  end
+  it 'merchant can activate item from merchant item index' do
 
+    expect(@shifter.active?).to eq(false)
+
+    within "#item-#{@shifter.id}" do
+      click_link 'Activate'
+    end
+
+    @shifter.reload
+    expect(current_path).to eq('/merchant/items')
+    expect(page).to have_content('Shimano Shifters is now available for sale.')
+
+    expect(@shifter.active?).to eq(true)
   end
 end
