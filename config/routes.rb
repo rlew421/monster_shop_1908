@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   patch '/profile/:user_id/password', to: 'users#update'
 
   namespace :admin do
+    get '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
     get '/orders/:order_id/ship', to: 'orders#ship'
     get '/users/:user_id', to: 'users#show'
     get '/users', to: 'dashboard#index'
@@ -52,8 +53,8 @@ Rails.application.routes.draw do
     get '/:admin_id', to: 'dashboard#show'
     get '/users/:user_id/edit_role', to: 'users#edit_role'
     patch '/users/:user_id/upgrade', to: 'users#upgrade'
-    # patch '/users/:user_id/upgrade_merchant_admin', to: 'users#upgrade'
     get '/', to: 'dashboard#show'
+    # get '/merchants', to: 'merchant#index'
   end
 
   namespace :merchant do
