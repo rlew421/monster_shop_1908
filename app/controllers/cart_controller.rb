@@ -27,10 +27,17 @@ class CartController < ApplicationController
   end
 
   def increment_decrement
+    item = Item.find(params[:item_id])
     if params[:increment_decrement] == "increment"
       cart.add_quantity(params[:item_id]) unless cart.limit_reached?(params[:item_id])
+      if cart.limit_reached?(params[:item_id])
+        flash[:notice] = "You have reached the inventory limit for #{item.name}!"
+      end
     elsif params[:increment_decrement] == "decrement"
       cart.subtract_quantity(params[:item_id])
+      if cart.quantity_zero?(params[:item_id])
+        flash[:notice] = "#{item.name} has been removed from your cart."
+      end 
       return remove_item if cart.quantity_zero?(params[:item_id])
     end
     redirect_to "/cart"

@@ -1,8 +1,7 @@
 class Merchant <ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_orders, through: :items
-  has_many :employments
-  has_many :users, through: :employments
+  has_many :users
   has_many :item_orders
 
   validates_presence_of :name,
@@ -10,6 +9,7 @@ class Merchant <ApplicationRecord
                         :city,
                         :state,
                         :zip
+  validates :zip, format: { with: /\d{5}/ }
 
 
   def no_orders?

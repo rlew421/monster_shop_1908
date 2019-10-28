@@ -1,7 +1,7 @@
 class Merchant::ItemsController < Merchant::BaseController
 
   def index
-    merchant = current_user.merchants.first
+    merchant = Merchant.find(current_user.merchant_id)
     @items = merchant.items
   end
 
@@ -9,8 +9,7 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def create
-    user = User.find(session[:user_id])
-    merchant = user.merchants.first
+    merchant = Merchant.find(current_user.merchant_id)
     @new_item = merchant.items.new(item_params)
     if @new_item.save
       flash[:success] = "#{@new_item.name} is saved to your items."
