@@ -3,8 +3,7 @@ require 'rails_helper'
 describe User do
   describe 'relationships' do
     it { should have_many :orders}
-    it { should have_many :employments }
-    it { should have_many(:merchants).through(:employments) }
+    it { should belong_to(:merchant).optional }
   end
   describe 'validations' do
     it { should validate_presence_of :name }
