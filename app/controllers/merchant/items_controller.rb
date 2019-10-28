@@ -11,14 +11,13 @@ class Merchant::ItemsController < Merchant::BaseController
   def create
     user = User.find(session[:user_id])
     merchant = user.merchants.first
-    item = merchant.items.create(item_params)
-    if item.save
-      flash[:success] = "#{item.name} is saved to your items."
-
+    @new_item = merchant.items.new(item_params)
+    if @new_item.save
+      flash[:success] = "#{@new_item.name} is saved to your items."
       redirect_to '/merchant/items'
     else
-      flash[:error] = item.errors.full_messages.to_sentence
-      redirect_to '/merchant/items/new'
+      flash[:error] = @new_item.errors.full_messages.to_sentence
+      render :new
     end
   end
 
