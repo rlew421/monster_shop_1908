@@ -1,4 +1,10 @@
 class Admin::UsersController < Admin::BaseController
+
+  def show
+    user = User.find(params[:user_id])
+  end
+
+
   def edit
     @user = User.find(params[:user_id])
 
@@ -7,6 +13,10 @@ class Admin::UsersController < Admin::BaseController
     else
       @password_change = false
     end
+  end
+
+  def show
+    @user = User.find(params[:user_id])
   end
 
   def update
@@ -25,19 +35,28 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
+  def edit_role
+    @user = User.find(params[:user_id])
+    @merchants = Merchant.all
+  end
+
   def upgrade
     user = User.find(params[:user_id])
-    if request.env['PATH_INFO'] == "/admin/users/#{user.id}/upgrade_merchant_employee"
-      user.update_column(:role, "merchant_employee")
-    else request.env['PATH_INFO'] == "/admin/users/#{user.id}/upgrade_merchant_admin"
-      user.update_column(:role, "merchant_admin")
+    original_role = user.role
+    user.role_upgrade(user_params[:merchant], user_params[:role])
+
+    if user.role != original_role
+      flash[:sucess] = "You have successfully changed #{user.name}'s role to #{user.role}."
+      redirect_to '/admin/users'
+    else
+      flash[:error] = user.errors.full_messages.to_sentence
+      render :edit_role
     end
-    redirect_to '/admin/users'
   end
 
   private
 
   def user_params
-    params.permit(:name, :city, :address, :city, :state, :zip, :email, :password, :password_confirmation)
+    params.permit(:name, :city, :address, :city, :state, :zip, :email, :password, :password_confirmation, :merchant, :role)
   end
 end
