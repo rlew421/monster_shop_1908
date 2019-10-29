@@ -70,7 +70,7 @@ describe 'merchant adds an item' do
     expect(current_path).to eq('/merchant/items')
     expect(page).to have_content("Name can't be blank")
     expect(find_field('Description').value).to eq 'Warm spice black tea with steamed milk'
-    expect(find_field('Price').value).to eq('4')
+    expect(find_field('Price').value).to eq('4.0')
     expect(find_field('Inventory').value).to eq('50')
     end
   it 'merchant cannot add item without description' do
@@ -84,7 +84,7 @@ describe 'merchant adds an item' do
     expect(current_path).to eq('/merchant/items')
     expect(page).to have_content("Description can't be blank")
     expect(find_field('Name').value).to eq "Chai Latte"
-    expect(find_field('Price').value).to eq('4')
+    expect(find_field('Price').value).to eq('4.0')
     expect(find_field('Inventory').value).to eq('50')
   end
   it 'merchant must add item with price greater than zero' do
@@ -99,7 +99,7 @@ describe 'merchant adds an item' do
     expect(page).to have_content('Price must be greater than 0')
     expect(find_field('Name').value).to eq "Chai Latte"
     expect(find_field('Description').value).to eq 'Warm spice black tea with steamed milk'
-    expect(find_field('Price').value).to eq('-4')
+    expect(find_field('Price').value).to eq('-4.0')
     expect(find_field('Inventory').value).to eq('50')
 
   end
@@ -115,7 +115,7 @@ describe 'merchant adds an item' do
     expect(page).to have_content('Inventory must be greater than 0')
     expect(find_field('Name').value).to eq "Chai Latte"
     expect(find_field('Description').value).to eq 'Warm spice black tea with steamed milk'
-    expect(find_field('Price').value).to eq('4')
+    expect(find_field('Price').value).to eq('4.0')
 
 
   end
