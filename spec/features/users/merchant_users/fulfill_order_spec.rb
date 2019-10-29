@@ -24,13 +24,14 @@ describe 'merchant fulfills part of an order' do
 
     item_order_1 = order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2, merchant: meg)
     item_order_2 = order_1.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 20, merchant: brian)
+    item_order_3 = order_1.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 40, merchant: brian)
 
-    item_order_3 = order_2.item_orders.create!(item: shifter, price: shifter.price, quantity: 18, merchant: meg)
-    item_order_4 = order_2.item_orders.create!(item: tire, price: tire.price, quantity: 1, merchant: meg)
-    item_order_5 = order_2.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 2, merchant: brian)
+    item_order_4 = order_2.item_orders.create!(item: shifter, price: shifter.price, quantity: 18, merchant: meg)
+    item_order_5 = order_2.item_orders.create!(item: tire, price: tire.price, quantity: 1, merchant: meg)
+    item_order_6 = order_2.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 2, merchant: brian)
 
-    item_order_6 = order_3.item_orders.create!(item: dog_treats, price: dog_treats.price, quantity: 15, merchant: brian)
-    item_order_7 = order_3.item_orders.create!(item: frisbee, price: frisbee.price, quantity: 5, merchant: brian)
+    item_order_7 = order_3.item_orders.create!(item: dog_treats, price: dog_treats.price, quantity: 15, merchant: brian)
+    item_order_8 = order_3.item_orders.create!(item: frisbee, price: frisbee.price, quantity: 5, merchant: brian)
 
     visit '/'
     click_link 'Login'
@@ -47,8 +48,19 @@ describe 'merchant fulfills part of an order' do
 
     expect(page).to_not have_css("#item-#{tire.id}")
 
+
+    within "#item-#{item_order_3.item.id}" do
+      expect(page).to_not have_link('Fulfill')
+      expect(page).to have_content('Item cannot be fulfilled due to lack of inventory.')
+    end
+
     within "#item-#{item_order_2.item.id}" do
       click_link 'Fulfill'
+    end
+
+    within "#item-#{item_order_2.item.id}" do
+      expect(page).to_not have_link('Fulfill')
+      expect(page).to have_content('Item already fulfilled.')
     end
 
     expect(current_path).to eq("/merchant/orders/#{order_1.id}")
@@ -74,15 +86,16 @@ describe 'merchant fulfills part of an order' do
     order_1.reload
     order_3.reload
     item_order_2.reload
-    item_order_6.reload
     item_order_7.reload
+    item_order_8.reload
 
     expect(item_order_1.status).to eq('pending')
     expect(item_order_2.status).to eq('fulfilled')
+    expect(item_order_3.status).to eq('pending')
     expect(order_1.status).to eq('pending')
 
-    expect(item_order_6.status).to eq('fulfilled')
     expect(item_order_7.status).to eq('fulfilled')
+    expect(item_order_8.status).to eq('fulfilled')
     expect(order_3.status).to eq('packaged')
   end
 end
