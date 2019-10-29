@@ -8,7 +8,7 @@
       <p>City: <%= merchant.city %></p>
       <p>State: <%= merchant.state %></p>
       <p>Status: <%= merchant.status.capitalize %></p>
-      <%= button_to merchant_status_button_text(merchant), "/admin/merchants/#{merchant.id}/update_status", controller: 'admin/merchants', method: :patch %>
+      <%= button_to merchant_status_button_text(merchant), "/admin/merchants/#{merchant.id}/update_status", controller: 'admin/merchants', method: :patch if current_admin?%>
     </section>
   <% end %>
 </section>
