@@ -70,6 +70,8 @@ Rails.application.routes.draw do
     get '/items/new', to: 'items#new'
     post '/items', to: 'items#create'
 
-    get '/:order_id', to: 'orders#show'
+    get '/orders/:order_id', to: 'orders#show'
+
+    get '/item_orders/:item_order_id/fulfill', to: 'item_orders#fulfill'
   end
 end
