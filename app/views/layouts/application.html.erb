@@ -11,7 +11,8 @@
   <body>
     <nav class = "topnav">
       <%= link_to 'Home', '/' %>
-      <%= link_to "All Merchants", "/merchants"%>
+      <%= link_to_if !current_admin?, "All Merchants", merchants_path %>
+      <%= link_to_if current_admin?, "All Merchants", admin_merchants_path %>
       <%= link_to "All Items", "/items"%>
       <%= link_to_if !current_admin?, "Cart: #{cart.total_items}", "/cart" %>
 
