@@ -16,8 +16,6 @@ describe 'merchant adds an item' do
 
     visit "/merchant/items"
 
-    visit '/merchant/items'
-
     click_link 'Add New Item'
   end
   it 'merchant adds an item from their items page' do
