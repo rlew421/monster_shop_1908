@@ -4,6 +4,9 @@ class Admin::UsersController < Admin::BaseController
     @user = User.find(params[:user_id])
   end
 
+  def index
+    @users = User.all
+  end
 
   def edit
     @user = User.find(params[:user_id])
