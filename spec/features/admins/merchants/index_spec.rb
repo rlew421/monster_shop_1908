@@ -34,52 +34,61 @@ describe 'As an admin, when I visit the merchant index page.' do
 
   it 'I see each merchants name, city, state, and disable/enable buttons.' do
 
-    visit '/admin/merchants'
+    visit '/merchants'
     within "#merchant-#{@pawty_city.id}" do
       expect(page).to have_link("#{@pawty_city.name}")
       expect(page).to have_content("#{@pawty_city.city}")
       expect(page).to have_content("#{@pawty_city.state}")
       expect(page).to have_content('Enabled')
       expect(@pawty_city.status).to eq('enabled')
+
       click_button 'Disable'
+      @pawty_city.reload
       expect(@pawty_city.status).to eq('disabled')
-      expect(page).to have_content("#{@pawty_city.name} is now disabled.")
-      expect(current_path).to eq('/admin/merchants')
-
-      click_link "#{@pawty_city.name}"
-      expect(current_path).to eq("/admin/merchants/#{@pawty_city.id}")
     end
+    
+    expect(current_path).to eq('/merchants')
+    expect(page).to have_content("#{@pawty_city.name} is now disabled.")
 
-    visit '/admin/merchants'
+    click_link "#{@pawty_city.name}"
+    expect(current_path).to eq("/admin/merchants/#{@pawty_city.id}")
+
+    visit '/merchants'
     within "#merchant-#{@a_latte_fun.id}" do
       expect(page).to have_link("#{@a_latte_fun.name}")
       expect(page).to have_content("#{@a_latte_fun.city}")
       expect(page).to have_content("#{@a_latte_fun.state}")
       expect(page).to have_content('Disabled')
       expect(@a_latte_fun.status).to eq('disabled')
+
       click_button 'Enable'
-      expect(@pawty_city.status).to eq('enabled')
-      expect(page).to have_content("#{@pawty_city.name} is now enabled.")
-      expect(current_path).to eq('/admin/merchants')
-
-      click_link "#{@a_latte_fun.name}"
-      expect(current_path).to eq("/admin/merchants/#{@a_latte_fun.id}")
+      @a_latte_fun.reload
+      expect(@a_latte_fun.status).to eq('enabled')
     end
+    
+    expect(current_path).to eq('/merchants')
+    expect(page).to have_content("#{@a_latte_fun.name} is now enabled.")
 
-    visit '/admin/merchants'
+    click_link "#{@a_latte_fun.name}"
+    expect(current_path).to eq("/admin/merchants/#{@a_latte_fun.id}")
+
+    visit '/merchants'
     within "#merchant-#{@dog_shop.id}" do
       expect(page).to have_link("#{@dog_shop.name}")
       expect(page).to have_content("#{@dog_shop.city}")
       expect(page).to have_content("#{@dog_shop.state}")
       expect(page).to have_content('Disabled')
       expect(@dog_shop.status).to eq('disabled')
-      click_button 'Enable'
-      expect(@pawty_city.status).to eq('enabled')
-      expect(page).to have_content("#{@pawty_city.name} is now enabled.")
-      expect(current_path).to eq('/admin/merchants')
 
-      click_link "#{@dog_shop.name}"
-      expect(current_path).to eq("/admin/merchants/#{@dog_shop.id}")
+      click_button 'Enable'
+      @dog_shop.reload
+      expect(@dog_shop.status).to eq('enabled')
     end
+
+    expect(current_path).to eq('/merchants')
+    expect(page).to have_content("#{@dog_shop.name} is now enabled.")
+
+    click_link "#{@dog_shop.name}"
+    expect(current_path).to eq("/admin/merchants/#{@dog_shop.id}")
   end
 end
