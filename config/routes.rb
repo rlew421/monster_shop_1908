@@ -19,10 +19,6 @@ Rails.application.routes.draw do
   delete "/cart/:item_id", to: "cart#remove_item"
   patch "/cart/:item_id/:increment_decrement", to: "cart#increment_decrement"
 
-  get "/orders/new", to: "orders#new"
-  post "/orders", to: "orders#create"
-  # get "/orders/:id", to: "orders#show"
-
   delete '/cancel/:order_id', to: 'orders#destroy'
 
   get '/profile/orders', to: 'orders#index'
@@ -41,7 +37,6 @@ Rails.application.routes.draw do
   patch '/profile/:user_id/password', to: 'users#update'
 
   namespace :admin do
-    get '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
     get '/orders/:order_id/ship', to: 'orders#ship'
     get '/users/:user_id', to: 'users#show'
     get '/users', to: 'dashboard#index'
@@ -55,6 +50,7 @@ Rails.application.routes.draw do
     patch '/users/:user_id/upgrade', to: 'users#upgrade'
     get '/', to: 'dashboard#show'
     get '/merchants/:merchant_id', to: 'merchants#show'
+    patch '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
   end
 
   scope :admin do
@@ -69,7 +65,6 @@ Rails.application.routes.draw do
     delete '/items/:item_id', to: 'items#destroy'
     get '/items/new', to: 'items#new'
     post '/items', to: 'items#create'
-
     get '/:order_id', to: 'orders#show'
   end
 end

@@ -37,4 +37,12 @@ class Item < ApplicationRecord
   def self.bottom_five_items
     Item.joins(:item_orders).select("items.name, items.id, sum(item_orders.quantity) AS total_quantity").group(:id).order("total_quantity asc").limit(5)
   end
+
+  def deactivate
+    self.update_column(:active?, false)
+  end
+
+  def activate
+    self.update_column(:active?, true)
+  end
 end
