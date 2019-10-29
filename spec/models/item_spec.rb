@@ -40,17 +40,6 @@ describe Item, type: :model do
       expect(top_three).to eq([@review_1,@review_2,@review_5])
       expect(bottom_three).to eq([@review_3,@review_4,@review_5])
     end
-
-    it 'order quantity' do
-      @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
-      @user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
-      @dog_bed = @brian.items.create(name: "Dog Bed", description: "Fido and I love playing with this frisbee at the park.", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 28)
-      order_3 = @user.orders.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
-
-      order_3.item_orders.create!(item: @dog_bed, price: @dog_bed.price, quantity: 7, merchant: @brian)
-
-      expect(@dog_bed.order_quantity(order_3)).to eq(7)
-    end
     it 'no orders' do
       expect(@chain.no_orders?).to eq(true)
       user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')
