@@ -6,8 +6,4 @@ class Admin::DashboardController < Admin::BaseController
     @cancelled = Order.where(status: 'cancelled')
     @shipped = Order.where(status: 'shipped')
   end
-
-  def index
-    @users = User.where(role: 'default')
-  end
 end
