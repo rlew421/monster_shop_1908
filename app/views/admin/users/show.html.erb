@@ -1,7 +1,5 @@
-<h1>Hello, <%= @user.name %>!</h1>
-
 <% if !@user.orders.empty? %>
-  <%= link_to 'My Orders', "/profile/orders" %>
+  <%= link_to "#{@user.name}'s Orders'", "/profile/orders" %>
 <% end %>
 
 <p>Address: <%= @user.address %></p>
