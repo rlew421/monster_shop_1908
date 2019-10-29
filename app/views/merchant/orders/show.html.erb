@@ -11,11 +11,18 @@
 
 
 
-<% @items.each do |item| %>
-  <section id="item-<%= item.id %>">
-    <h3><%= link_to item.name, "/items/#{item.id}"%></h3>
-    <img src= <%= item.image %>>
-    <p>Price: <%= number_to_currency(item.price) %></p>
-    <p>Quantity Ordered: <%= item.order_quantity(@order) %></p>
+<% @item_orders.each do |item_order| %>
+  <section id="item-<%= item_order.item_id %>">
+    <h3><%= link_to item_order.item.name, "/items/#{item_order.item_id}"%></h3>
+    <img src= <%= item_order.item.image %>>
+    <p>Price: <%= number_to_currency(item_order.item.price) %></p>
+    <p>Quantity Ordered: <%= item_order.quantity %></p>
+    <% if item_order.quantity <= item_order.item.inventory && item_order.status == 'pending' %>
+      <%= link_to 'Fulfill', "/merchant/item_orders/#{item_order.id}/fulfill"  %>
+    <% elsif item_order.quantity > item_order.item.inventory %>
+      <p>Item cannot be fulfilled due to lack of inventory.</p>
+    <% elsif item_order.status == 'fulfilled' %>
+      <p>Item already fulfilled.</p>
+    <% end  %>
   </section>
 <% end %>

@@ -41,7 +41,7 @@ class OrdersController <ApplicationController
     order.update_attributes(:status => 'cancelled')
 
     order.item_orders.each do |item_order|
-      item_order.update_attributes(:status => 'unfulfilled')
+      item_order.update_attributes(:status => 0)
 
       item = Item.find(item_order.item_id)
       new_quantity = item.inventory + item_order.quantity

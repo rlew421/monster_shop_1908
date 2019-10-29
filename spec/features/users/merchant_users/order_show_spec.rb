@@ -60,7 +60,7 @@ describe 'merchant order show page' do
       click_link "#{@order_4.id}"
     end
 
-    expect(current_path).to eq("/merchant/#{@order_4.id}")
+    expect(current_path).to eq("/merchant/orders/#{@order_4.id}")
 
     within '#customer-info' do
       expect(page).to have_content('Name: Sonny Moore')
@@ -85,5 +85,43 @@ describe 'merchant order show page' do
       expect(page).to have_content('Price: $16.00')
       expect(page).to have_content('Quantity Ordered: 3')
     end
+  # it 'from dashboard merchant can view order customer and info for their merchants items' do
+  #   visit '/'
+  #   click_link 'Login'
+  #   fill_in :email, with: @merchant_employee.email
+  #   fill_in :password, with: @merchant_employee.password
+  #   click_button 'Log In'
+  #
+  #   visit '/merchant'
+  #
+  #   within "#order-#{@order_4.id}" do
+  #     click_link "#{@order_4.id}"
+  #   end
+  #
+  #   expect(current_path).to eq("/merchant/#{@order_4.id}")
+  #
+  #   within '#customer-info' do
+  #     expect(page).to have_content('Name: Sonny Moore')
+  #     expect(page).to have_content('Address: 87 Electric Ave')
+  #     expect(page).to have_content('City: NY')
+  #     expect(page).to have_content('State: New York')
+  #     expect(page).to have_content('Zip Code: 10221')
+  #   end
+  #
+  #   expect(page).to_not have_css("#item-#{@dog_bone.id}")
+  #   expect(page).to_not have_css("#item-#{@pumpkin_loaf.id}")
+  #
+  #   within "#item-#{@shark.id}" do
+  #     expect(page).to have_link('Baby Shark Costume')
+  #     expect(page).to have_css("img[src*='#{@shark.image}']")
+  #     expect(page).to have_content('Price: $23.75')
+  #     expect(page).to have_content('Quantity Ordered: 5')
+  #   end
+  #   within "#item-#{@harry_potter.id}" do
+  #     expect(page).to have_link('Harry Potter Costume')
+  #     expect(page).to have_css("img[src*='#{@harry_potter.image}']")
+  #     expect(page).to have_content('Price: $16.00')
+  #     expect(page).to have_content('Quantity Ordered: 3')
+    # end
   end
 end

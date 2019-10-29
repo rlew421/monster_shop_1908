@@ -27,7 +27,7 @@ describe ItemOrder, type: :model do
       expect(item_order_1.subtotal).to eq(200)
     end
 
-    it 'fulfillment' do
+    it 'fulfill' do
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
@@ -45,40 +45,40 @@ describe ItemOrder, type: :model do
       order_2 = @user_2.orders.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
       order_3 = @user.orders.create!(name: 'Mike', address: '123 Dao St', city: 'Denver', state: 'CO', zip: 80210)
 
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
-      order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 20, merchant: @brian)
+      item_order_1 = order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, merchant: @meg)
+      item_order_2 = order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 20, merchant: @brian)
 
-      order_2.item_orders.create!(item: @shifter, price: @shifter.price, quantity: 18, merchant: @meg)
-      order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 1, merchant: @meg)
-      order_2.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2, merchant: @brian)
+      item_order_3 = order_2.item_orders.create!(item: @shifter, price: @shifter.price, quantity: 18, merchant: @meg)
+      item_order_4 = order_2.item_orders.create!(item: @tire, price: @tire.price, quantity: 1, merchant: @meg)
+      item_order_5 = order_2.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2, merchant: @brian)
 
-      order_3.item_orders.create!(item: @dog_treats, price: @dog_treats.price, quantity: 15, merchant: @brian)
-      order_3.item_orders.create!(item: @frisbee, price: @frisbee.price, quantity: 5, merchant: @brian)
+      item_order_6 = order_3.item_orders.create!(item: @dog_treats, price: @dog_treats.price, quantity: 15, merchant: @brian)
+      item_order_7 = order_3.item_orders.create!(item: @frisbee, price: @frisbee.price, quantity: 5, merchant: @brian)
 
-      expect(ItemOrder.where(item_id: @pull_toy.id).where(order_id: order_1.id).first.status).to eq('pending')
-      expect(ItemOrder.where(item_id: @tire.id).where(order_id: order_1.id).first.status).to eq('pending')
-      expect(ItemOrder.where(item_id: @tire.id).where(order_id: order_2.id).first.status).to eq('pending')
-      expect(ItemOrder.where(item_id: @pull_toy.id).where(order_id: order_2.id).first.status).to eq('pending')
-      expect(ItemOrder.where(item_id: @shifter.id).where(order_id: order_2.id).first.status).to eq('pending')
 
-      ItemOrder.fulfillment(@tire.id, order_1.id)
-      ItemOrder.fulfillment(@pull_toy.id, order_1.id)
-      ItemOrder.fulfillment(@shifter.id, order_2.id)
+      expect(item_order_1.order.status).to eq('pending')
+      expect(item_order_2.order.status).to eq('pending')
+      expect(item_order_3.order.status).to eq('pending')
+      expect(item_order_4.order.status).to eq('pending')
+      expect(item_order_5.order.status).to eq('pending')
+
+      item_order_1.fulfill
+      item_order_2.fulfill
+      item_order_3.fulfill
 
       order_1.reload
       order_2.reload
       order_1.item_orders.reload
       order_2.item_orders.reload
 
-      expect(ItemOrder.where(item_id: @pull_toy.id).where(order_id: order_1.id).first.status).to eq('fulfilled')
-      expect(ItemOrder.where(item_id: @tire.id).where(order_id: order_1.id).first.status).to eq('fulfilled')
-      expect(order_1.status).to eq('fulfilled')
 
-      expect(ItemOrder.where(item_id: @tire.id).where(order_id: order_2.id).first.status).to eq('pending')
-      expect(ItemOrder.where(item_id: @pull_toy.id).where(order_id: order_2.id).first.status).to eq('pending')
-      expect(ItemOrder.where(item_id: @shifter.id).where(order_id: order_2.id).first.status).to eq('fulfilled')
+      expect(item_order_1.status).to eq('fulfilled')
+      expect(item_order_2.status).to eq('fulfilled')
+      expect(order_1.status).to eq('packaged')
+
+      expect(item_order_3.status).to eq('fulfilled')
+      expect(item_order_4.status).to eq('pending')
+      expect(item_order_5.status).to eq('pending')
       expect(order_2.status).to eq('pending')
     end
   end

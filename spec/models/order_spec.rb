@@ -42,8 +42,8 @@ describe Order, type: :model do
       Order.fulfill(@order_1.id)
       @order_1.reload
 
-      expect(@order_1.status).to eq('fulfilled')
-    end 
+      expect(@order_1.status).to eq('packaged')
+    end
 
     it 'merchant item_count' do
       expect(@order_1.item_count).to eq(2)
