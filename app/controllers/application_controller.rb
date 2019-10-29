@@ -31,13 +31,4 @@ class ApplicationController < ActionController::Base
     end
     @button_text
   end
-
-  def merchant_status_button_action(merchant)
-    if merchant.enabled? == true
-      @button_action = 'disable'
-    else
-      @button_action = 'enable'
-    end
-    @button_action
-  end
 end
