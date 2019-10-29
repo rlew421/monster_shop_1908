@@ -22,10 +22,6 @@ class Item <ApplicationRecord
     reviews.order(rating: order).limit(limit)
   end
 
-  def order_quantity(order)
-    item_orders.where(order_id: order.id).first.quantity
-  end
-
   def no_orders?
     item_orders.empty?
   end
