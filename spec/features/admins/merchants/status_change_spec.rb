@@ -31,15 +31,15 @@ describe 'admins can disable merchants from merchant index page' do
     visit '/merchants'
 
     within "#merchant-#{@knit_wit.id}" do
-      expect(page).to have_link('Disable')
+      expect(page).to have_button('Disable')
     end
 
     within "#merchant-#{@pawty_city.id}" do
-      expect(page).to have_link('Disable')
+      expect(page).to have_button('Disable')
     end
 
     within "#merchant-#{@suite_deal.id}" do
-      click_link 'Disable'
+      click_button 'Disable'
     end
 
     expect(current_path).to eq('/merchants')
@@ -56,7 +56,7 @@ describe 'admins can disable merchants from merchant index page' do
     end
 
     within "#merchant-#{@pawty_city.id}" do
-      click_link 'Disable'
+      click_button 'Disable'
     end
 
     @pawty_city.reload
@@ -71,11 +71,11 @@ describe 'admins can disable merchants from merchant index page' do
     visit '/merchants'
 
     within "#merchant-#{@a_latte_fun.id}" do
-      expect(page).to have_link 'Enable'
+      expect(page).to have_button 'Enable'
     end
 
     within "#merchant-#{@dog_shop.id}" do
-      click_link 'Enable'
+      click_button 'Enable'
     end
 
     @dog_shop.reload
@@ -90,7 +90,7 @@ describe 'admins can disable merchants from merchant index page' do
     end
 
     within "#merchant-#{@a_latte_fun.id}" do
-      click_link 'Enable'
+      click_button 'Enable'
     end
 
     @a_latte_fun.reload
