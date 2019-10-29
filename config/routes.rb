@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/orders/:order_id/ship', to: 'orders#ship'
     get '/users/:user_id', to: 'users#show'
-    get '/users', to: 'dashboard#index'
+    get '/users', to: 'users#index'
     get '/users/:user_id', to: 'users#show'
     get '/users/:user_id/edit', to: 'users#edit'
     get '/users/:user_id/edit/password', to: 'users#edit'
