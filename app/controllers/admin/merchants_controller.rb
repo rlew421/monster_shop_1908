@@ -6,7 +6,7 @@ class Admin::MerchantsController < Admin::BaseController
     @orders = Order.find(order_ids)
   end
 
-
+  # !!Move into the Model!!
   def update_status
     merchant = Merchant.find(params[:merchant_id])
     if merchant.status == 'disabled'
