@@ -1,0 +1,21 @@
+<h1>Order Information</h1>
+
+<section id='customer-info'>
+  <h2>Customer Information</h2>
+  <p>Name: <%= @user.name %> </p>
+  <p>Address: <%= @user.address %> </p>
+  <p>City: <%= @user.city %> </p>
+  <p>State: <%= @user.state %> </p>
+  <p>Zip Code: <%= @user.zip %> </p>
+</section>
+
+
+
+<% @items.each do |item| %>
+  <section id="item-<%= item.id %>">
+    <h3><%= link_to item.name, "/items/#{item.id}"%></h3>
+    <img src= <%= item.image %>>
+    <p>Price: <%= number_to_currency(item.price) %></p>
+    <p>Quantity Ordered: <%= item.order_quantity(@order) %></p>
+  </section>
+<% end %>
