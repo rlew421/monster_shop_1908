@@ -23,7 +23,6 @@ describe 'As an admin, when I visit the merchant index page.' do
 
     @dog_shop = Merchant.create(name: "Meg's Dog Shop", address: '123 Dog Rd.', city: 'Hershey', state: 'PA', zip: 80203, status: 'disabled')
 
-
     admin = User.create(name: 'Monica', address: '75 Chef Ave', city: 'Utica', state: 'New York', zip: '45827', email: 'cleaner@gmail.com', password: 'monmon', role: 3)
 
     visit '/'
@@ -44,7 +43,7 @@ describe 'As an admin, when I visit the merchant index page.' do
       expect(@pawty_city.status).to eq('enabled')
       click_button 'Disable'
       expect(@pawty_city.status).to eq('disabled')
-      expect(page).to have_content("You have disabled #{@pawty_city.name}")
+      expect(page).to have_content("#{@pawty_city.name} is now disabled.")
       expect(current_path).to eq('/admin/merchants')
 
       click_link "#{@pawty_city.name}"
@@ -60,7 +59,7 @@ describe 'As an admin, when I visit the merchant index page.' do
       expect(@a_latte_fun.status).to eq('disabled')
       click_button 'Enable'
       expect(@pawty_city.status).to eq('enabled')
-      expect(page).to have_content("You have enabled #{@pawty_city.name}")
+      expect(page).to have_content("#{@pawty_city.name} is now enabled.")
       expect(current_path).to eq('/admin/merchants')
 
       click_link "#{@a_latte_fun.name}"
@@ -76,7 +75,7 @@ describe 'As an admin, when I visit the merchant index page.' do
       expect(@dog_shop.status).to eq('disabled')
       click_button 'Enable'
       expect(@pawty_city.status).to eq('enabled')
-      expect(page).to have_content("You have enabled #{@pawty_city.name}")
+      expect(page).to have_content("#{@pawty_city.name} is now enabled.")
       expect(current_path).to eq('/admin/merchants')
 
       click_link "#{@dog_shop.name}"
