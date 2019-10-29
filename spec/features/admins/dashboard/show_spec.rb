@@ -145,74 +145,6 @@ RSpec.describe "admin dashboard" do
     end
   end
 
-  it "can edit default user profile" do
-    visit '/admin/users'
-
-    within "#users-#{@user_1.id}" do
-      click_link "Edit Profile"
-    end
-    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
-
-    expect(find_field('Name').value).to eq "Richy Rich"
-    expect(find_field('Address').value).to eq "102 Main St"
-    expect(find_field('City').value).to eq "NY"
-    expect(find_field('State').value).to eq "New York"
-    expect(find_field('Zip').value).to eq "10221"
-    expect(find_field('Email').value).to eq "young_money99@gmail.com"
-
-    fill_in 'Name', with: "Poory Poor"
-    fill_in 'Address', with: "104 Not Main St"
-    fill_in 'Zip', with: "10221"
-    fill_in 'Email', with: "old_money99@gmail.com"
-
-    click_button 'Submit Changes'
-
-    expect(current_path).to eq('/admin/users')
-
-    within "#users-#{@user_1.id}" do
-      expect(current_path).to eq('/admin/users')
-      expect(page).to have_content("Poory Poor")
-      expect(page).to have_content("104 Not Main St")
-      expect(page).to have_content("NY")
-      expect(page).to have_content("New York")
-      expect(page).to have_content("10221")
-      expect(page).to have_content("old_money99@gmail.com")
-    end
-  end
-
-  it "can edit default user password" do
-    visit '/admin/users'
-
-    within "#users-#{@user_1.id}" do
-      click_link "Edit Password"
-    end
-
-    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit/password")
-
-    expect(page).to have_field('Password')
-    expect(page).to have_field('Password confirmation')
-
-    fill_in 'Password', with: "newpasswordwhodis"
-    fill_in 'Password confirmation', with: "newpasswordwhodis"
-    click_button 'Submit Changes'
-
-    @user_1.reload
-
-    expect(current_path).to eq('/admin/users')
-    expect(page).to have_content("You have successfully updated #{@user_1.name}'s password!")
-
-    click_link 'Log Out'
-
-    visit '/'
-    click_link 'Login'
-
-    fill_in :email, with: @user_1.email
-    fill_in :password, with: 'newpasswordwhodis'
-    click_button 'Log In'
-    expect(current_path).to eq("/profile/#{@user_1.id}")
-    expect(page).to have_content('Welcome, Richy Rich! You are logged in.')
-  end
-
   it 'displays all orders and the order information' do
 
     within "#packaged" do
@@ -251,7 +183,6 @@ RSpec.describe "admin dashboard" do
       end
     end
 
-
     within "#packaged" do
       within "#orders-#{@order_1.id}" do
         click_link "#{@user_1.name}"
@@ -285,22 +216,6 @@ RSpec.describe "admin dashboard" do
         click_link "#{@user_3.name}"
         expect(current_path).to eq("/admin/users/#{@user_3.id}")
       end
-    end
-  end
-
-  it 'admin can ship an order' do
-    within "#packaged" do
-      within "#orders-#{@order_1.id}" do
-        click_link 'Ship Order'
-      end
-    end
-
-    within "#packaged" do
-      expect(page).to_not have_css("#orders-#{@order_1.id}")
-    end
-
-    within "#shipped" do
-      expect(page).to have_css("#orders-#{@order_1.id}")
     end
   end
 end
