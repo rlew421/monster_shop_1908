@@ -69,5 +69,7 @@ Rails.application.routes.draw do
     delete '/items/:item_id', to: 'items#destroy'
     get '/items/new', to: 'items#new'
     post '/items', to: 'items#create'
+
+    get '/:order_id', to: 'orders#show'
   end
 end
