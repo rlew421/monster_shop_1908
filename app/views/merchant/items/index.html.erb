@@ -19,6 +19,7 @@
       <% if item.orders.empty? %>
       <p><%= link_to 'Delete Item', "/merchant/items/#{item.id}", method: :delete %></p>
       <% end  %>
+      <p><%= link_to "Edit Item", "/merchant/items/#{item.id}/edit" %></p>
     </section>
   <% end %>
   <p><%= link_to 'Add New Item', '/merchant/items/new' %></p>
