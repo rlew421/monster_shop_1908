@@ -24,7 +24,7 @@ class Merchant < ApplicationRecord
   end
 
   def no_orders?
-    item_orders.empty?
+    item_orders.joins(order: :user).where("users.is_active = true").empty?
   end
 
   def item_count
@@ -36,7 +36,7 @@ class Merchant < ApplicationRecord
   end
 
   def distinct_cities
-    item_orders.distinct.joins(:order).pluck(:city)
+    item_orders.distinct.joins(order: :user).where("users.is_active = true").pluck("orders.city")
   end
 
 end
