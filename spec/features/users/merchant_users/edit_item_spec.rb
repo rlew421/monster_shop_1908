@@ -75,7 +75,7 @@ RSpec.describe "merchant edits an item" do
     expect(@chai_latte.active?).to eq(true)
   end
 
-  it "merchant gets an error flash message if the entire form except image isn't filled out" do
+  it "merchant gets an error flash message and prepopulated form if the entire form except image isn't filled out" do
     visit '/merchant/items'
 
     within "#item-#{@chai_latte.id}" do
