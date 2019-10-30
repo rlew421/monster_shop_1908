@@ -12,9 +12,7 @@
       <p>E-mail: <%= user.email %></p>
       <%= link_to "Edit Profile", "/admin/users/#{user.id}/edit" %>
       <%= link_to "Edit Password", "/admin/users/#{user.id}/edit/password" %>
-      <% if user.role == 'default' %>
-        <%= link_to "Upgrade to Merchant User", "/admin/users/#{user.id}/edit_role" %>
-      <% end  %>
+      <%= link_to "Upgrade to Merchant User", "/admin/users/#{user.id}/edit_role" if user.role == 'default' %>
     </section><hr>
   <% end %>
 </ul>
