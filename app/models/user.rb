@@ -14,6 +14,8 @@ class User < ApplicationRecord
 
   def role_upgrade(merchant_id, new_role)
     self.update_column(:role, new_role)
-    self.update_column(:merchant_id, merchant_id) 
+    self.update_column(:merchant_id, merchant_id)
   end
+
+
 end
