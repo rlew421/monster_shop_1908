@@ -52,8 +52,8 @@ Rails.application.routes.draw do
     get '/merchants/:merchant_id', to: 'merchants#show'
     patch '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
 
-    get '/users/:user_id/enable', to: 'users#account_activate'
-    get '/users/:user_id/disable', to: 'users#account_activate'
+    get '/users/:user_id/enable', to: 'users#change_active_status'
+    get '/users/:user_id/disable', to: 'users#change_active_status'
   end
 
   scope :admin do
