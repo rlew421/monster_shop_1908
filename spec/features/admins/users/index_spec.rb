@@ -154,7 +154,7 @@ RSpec.describe "Admin Users Index" do
       expect(page).to have_content(@merchant_employee.email)
       expect(page).to have_link("Edit Profile")
       expect(page).to have_link("Edit Password")
-      expect(page).to have_link("Upgrade to Merchant User")
+      expect(page).to_not have_link("Upgrade to Merchant User")
 
       click_link "Edit Profile"
       expect(current_path).to eq("/admin/users/#{@merchant_employee.id}/edit")
@@ -190,7 +190,7 @@ RSpec.describe "Admin Users Index" do
       expect(page).to have_content(@merchant_admin.email)
       expect(page).to have_link("Edit Profile")
       expect(page).to have_link("Edit Password")
-      expect(page).to have_link("Upgrade to Merchant User")
+      expect(page).to_not have_link("Upgrade to Merchant User")
 
       click_link "Edit Profile"
       expect(current_path).to eq("/admin/users/#{@merchant_admin.id}/edit")
