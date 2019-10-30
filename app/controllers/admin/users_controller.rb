@@ -1,9 +1,5 @@
 class Admin::UsersController < Admin::BaseController
 
-  def show
-    @user = User.find(params[:user_id])
-  end
-
   def index
     @users = User.all
   end
@@ -44,16 +40,16 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def upgrade
-    user = User.find(params[:user_id])
-    original_role = user.role
-    user.role_upgrade(user_params[:merchant], user_params[:role])
+    @user = User.find(params[:user_id])
+    original_role = @user.role
 
-    if user.role != original_role
-      flash[:sucess] = "You have successfully changed #{user.name}'s role to #{user.role}."
+    if user_params[:merchant] == '' || user_params[:role] == ''
+      flash[:error] = "You must select a valid Merchant and Role"
+      redirect_to "/admin/users/#{@user.id}/edit_role"
+    elsif user_params[:role] != original_role
+      @user.role_upgrade(user_params[:merchant], user_params[:role])
+      flash[:sucess] = "You have successfully changed #{@user.name}'s role to #{@user.role}."
       redirect_to '/admin/users'
-    else
-      flash[:error] = user.errors.full_messages.to_sentence
-      render :edit_role
     end
   end
 
