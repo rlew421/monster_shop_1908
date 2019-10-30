@@ -24,7 +24,17 @@ describe User do
       expect(user.role).to eq("default")
       user.role_upgrade(meg.id, 1)
       expect(user.role).to eq("merchant_employee")
+    end
+    it 'account_activate' do
+      user_1 = User.create!(name: 'Richy Rich', address: '102 Main St', city: 'NY', state: 'New York', zip: '10221', email: "young_money99@gmail.com", password: "momoneymoprobz", is_active: false)
+      user_1.toggle_active_status
+      user_1.reload
+      expect(user_1.is_active).to eq(true)
 
+      user_2 = User.create!(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221', email: "alice_in_the_sky@gmail.com", password: "cheshirecheezin")
+      user_2.toggle_active_status
+      user_2.reload
+      expect(user_2.is_active).to eq(false)
     end
   end
 
