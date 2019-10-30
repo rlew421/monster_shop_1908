@@ -24,6 +24,8 @@ describe 'ship order' do
         click_link 'Ship Order'
       end
     end
+    
+    @order_1.reload
 
     within "#packaged" do
       expect(page).to_not have_css("#orders-#{@order_1.id}")
@@ -31,6 +33,18 @@ describe 'ship order' do
 
     within "#shipped" do
       expect(page).to have_css("#orders-#{@order_1.id}")
+      expect(@order_1.status).to eq('shipped')
     end
+
+    click_link 'Log Out'
+    click_link 'Login'
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: @user_1.password
+    click_button 'Log In'
+
+    visit "/profile/orders/#{@order_1.id}"
+
+    expect(@order_1.status).to eq('shipped')
+    expect(page).to_not have_link('Cancel Order')
   end
 end
