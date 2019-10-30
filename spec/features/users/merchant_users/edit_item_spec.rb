@@ -84,14 +84,15 @@ RSpec.describe "merchant edits an item" do
 
     expect(current_path).to eq("/merchant/items/#{@chai_latte.id}/edit")
     expect(page).to have_content("Edit Chai Latte")
-    fill_in 'Name', with: " "
-    fill_in 'Description', with: "Just the right amount of spice"
+    fill_in 'Name', with: ""
+    fill_in 'Description', with: ""
     fill_in 'Price', with: 6
     fill_in 'Image', with: "https://www.ohhowcivilized.com/wp-content/uploads/2013/01/0918-cha-tea-latte-16.jpg"
     fill_in 'Inventory', with: 12
 
     click_button "Update Item"
-    expect(page).to have_content("Name can't be blank")
+
+    expect(page).to have_content("Name can't be blank and Description can't be blank")
     expect(page).to have_button("Update Item")
   end
 
