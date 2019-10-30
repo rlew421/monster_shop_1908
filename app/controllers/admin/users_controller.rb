@@ -57,16 +57,14 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
-  def account_activate
+  def change_active_status
     user = User.find(params[:user_id])
-    if user.is_active == true
-      user.update_column(:is_active, false)
+    user.toggle_active_status
+    if user.is_active == false
       flash[:success] = "#{user.name}'s account has been disabled."
-    elsif user.is_active == false
-      user.update_column(:is_active, true)
+    else
       flash[:success] = "#{user.name}'s account has been enabled."
     end
-
     redirect_to '/admin/users'
   end
 
