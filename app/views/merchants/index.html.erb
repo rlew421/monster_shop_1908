@@ -7,8 +7,10 @@
       <h2><%= link_to merchant.name, "/merchants/#{merchant.id}" if !current_admin? %></h2>
       <p>City: <%= merchant.city %></p>
       <p>State: <%= merchant.state %></p>
-      <p>Status: <%= merchant.status.capitalize %></p>
-      <%= button_to merchant_status_button_text(merchant), "/admin/merchants/#{merchant.id}/update_status", controller: 'admin/merchants', method: :patch if current_admin?%>
+      <% if current_admin? %>
+        <p>Status: <%= merchant.status.capitalize %></p>
+        <%= button_to merchant_status_button_text(merchant), "/admin/merchants/#{merchant.id}/update_status", controller: 'admin/merchants', method: :patch if current_admin?%>
+      <% end %>
     </section>
   <% end %>
 </section>
