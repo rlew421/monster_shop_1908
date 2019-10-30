@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  default_scope where(:is_active => true)
   has_many :orders
   belongs_to :merchant, optional: true
 
