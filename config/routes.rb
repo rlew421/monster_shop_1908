@@ -49,6 +49,8 @@ Rails.application.routes.draw do
     patch '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
     get '/orders/:order_id/ship', to: 'orders#ship'
     get '/', to: 'dashboard#show'
+    get '/users/:user_id/enable', to: 'users#change_active_status'
+    get '/users/:user_id/disable', to: 'users#change_active_status'
   end
 
   scope :admin do
@@ -68,4 +70,5 @@ Rails.application.routes.draw do
     get '/orders/:order_id', to: 'orders#show'
     get '/item_orders/:item_order_id/fulfill', to: 'item_orders#fulfill'
   end
+
 end
