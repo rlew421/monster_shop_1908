@@ -72,6 +72,10 @@ describe 'admin can disable a user account' do
   it 'disabled user info is not in stats' do
 
     expect(@dog_shop.distinct_cities).to_not include('Denver')
+
+    visit '/orders'
+
+    expect(page).to_not have_css("#order-#{@order_1.id}")
   end
 
 end
