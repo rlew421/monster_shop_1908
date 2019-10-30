@@ -7,16 +7,17 @@ describe 'admin can disable a user account' do
     @user_2 = User.create!(name: 'Alice Wonder', address: '346 Underground Blvd', city: 'NY', state: 'New York', zip: '10221', email: "alice_in_the_sky@gmail.com", password: "cheshirecheezin")
     @user_3 = User.create!(name: 'Sonny Moore', address: '87 Electric Ave', city: 'NY', state: 'New York', zip: '10221', email: "its_always_sonny@gmail.com", password: "beatz")
 
-    suite_deal= Merchant.create(name: "Suite Deal Home Goods", address: '1280 Park Ave', city: 'Denver', state: 'CO', zip: "80202")
-    knit_wit = Merchant.create(name: "Knit Wit", address: '123 Main St.', city: 'Denver', state: 'CO', zip: "80218")
-    a_latte_fun = Merchant.create(name: "A Latte Fun", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: "80210")
-
-    dog_shop = Merchant.create(name: "Meg's Dog Shop", address: '123 Dog Rd.', city: 'Hershey', state: 'PA', zip: 80203)
-    @merchant_employee = dog_shop.users.create!(name: 'Ross', address: '56 HairGel Ave', city: 'Las Vegas', state: 'Nevada', zip: '65041', email: 'dinosaurs_rule@gmail.com', password: 'rachel', role: 1)
+    @dog_shop = Merchant.create(name: "Meg's Dog Shop", address: '123 Dog Rd.', city: 'Hershey', state: 'PA', zip: 80203)
+    @dog_bone = @dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 20, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
 
 
-    pawty_city = Merchant.create(name: "Paw-ty City", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
-    @merchant_admin = pawty_city.users.create!(name: 'Monicahh', address: '75 Chef Ave', city: 'Utica', state: 'New York', zip: '45827', email: 'anothercleaner@gmail.com', password: 'monmon', role: 2)
+    @pawty_city = Merchant.create(name: "Paw-ty City", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: "80203")
+    @pull_toy = @pawty_city.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+
+    @order_1 = @user_1.orders.create!(name: 'Brian', address: '123 Zanti St', city: 'Denver', state: 'CO', zip: 80204)
+
+    @order_1.item_orders.create!(item: @dog_bone, price: @dog_bone.price, quantity: 2, merchant: @dog_shop)
+    @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 2, merchant: @pawty_city)
 
   end
   it 'enabled user can login' do
@@ -68,4 +69,9 @@ describe 'admin can disable a user account' do
     expect(current_path).to eq('/login')
     expect(page).to have_content('Unable to login. Your account has been deactivated')
   end
+  it 'disabled user info is not in stats' do
+
+    expect(@dog_shop.distinct_cities).to_not include('Denver')
+  end
+
 end
