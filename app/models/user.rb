@@ -17,5 +17,13 @@ class User < ApplicationRecord
     self.update_column(:merchant_id, merchant_id)
   end
 
+  def toggle_active_status
+    if is_active
+      update_column(:is_active, false)
+    else
+      update_column(:is_active, true)
+    end
+  end
+
 
 end
