@@ -10,6 +10,7 @@ RSpec.describe "Admin change User roles" do
     @suite_deal = Merchant.create(name: "Suite Deal Home Goods", address: '1280 Park Ave', city: 'Denver', state: 'CO', zip: "80202")
     @knit_wit = Merchant.create(name: "Knit Wit", address: '123 Main St.', city: 'Denver', state: 'CO', zip: "80218")
     @a_latte_fun = Merchant.create(name: "A Latte Fun", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: "80210")
+    
     visit '/'
     click_link 'Login'
     fill_in :email, with: @admin.email

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'merchant deletes an item' do
+describe 'As a Merchant User' do
   before(:each) do
     @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     merchant_admin = @meg.users.create(name: 'Ross', address: '56 HairGel Ave', city: 'Las Vegas', state: 'Nevada', zip: '65041', email: 'dinosaurs_rule@gmail.com', password: 'rachel', role: 2)
@@ -21,7 +21,8 @@ describe 'merchant deletes an item' do
     click_button 'Log In'
     visit "/merchant/items"
   end
-  it 'from merchant items page merchant can delete items that have never been orderd' do
+
+  it 'From merchant items page merchant I can delete items that have never been ordered' do
 
     within "#item-#{@tire.id}" do
       expect(page).to_not have_link('Delete Item')

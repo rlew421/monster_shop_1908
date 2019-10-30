@@ -37,7 +37,9 @@ class MerchantsController <ApplicationController
   end
 
   def destroy
+    merchant = Merchant.find(params[:id]).name
     Merchant.destroy(params[:id])
+    flash[:success] = "You have successfully deleted the merchant #{merchant}"
     redirect_to '/merchants'
   end
 
@@ -46,5 +48,4 @@ class MerchantsController <ApplicationController
   def merchant_params
     params.permit(:name,:address,:city,:state,:zip)
   end
-
 end

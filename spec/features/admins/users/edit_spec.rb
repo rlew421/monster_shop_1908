@@ -14,6 +14,7 @@ describe 'admin can edit user profile and password' do
     fill_in :password, with: @admin.password
     click_button 'Log In'
   end
+
   it "can edit default user profile" do
     visit '/admin/users'
 
@@ -80,5 +81,84 @@ describe 'admin can edit user profile and password' do
     click_button 'Log In'
     expect(current_path).to eq("/profile/#{@user_1.id}")
     expect(page).to have_content('Welcome, Richy Rich! You are logged in.')
+  end
+
+  it "Tells me when password form doesnt match" do
+    visit '/admin/users'
+
+    within "#users-#{@user_1.id}" do
+      click_link "Edit Password"
+    end
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit/password")
+
+    fill_in 'Password', with: "apple"
+    fill_in 'Password confirmation', with: "orange"
+    click_button 'Submit Changes'
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit/password")
+    expect(page).to have_content("Password confirmation doesn't match Password")
+
+    fill_in 'Password', with: "apple"
+    fill_in 'Password confirmation', with: "apple"
+    click_button 'Submit Changes'
+    @user_1.reload
+
+    expect(current_path).to eq('/admin/users')
+    expect(page).to have_content("You have successfully updated #{@user_1.name}'s password!")
+  end
+
+  it "Wont let me use invalid info for updating user profile." do
+    visit '/admin/users'
+
+    within "#users-#{@user_1.id}" do
+      click_link "Edit Profile"
+    end
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
+
+    fill_in 'Name', with: ""
+    fill_in 'Address', with: "104 Not Main St"
+    fill_in 'Zip', with: "10221"
+    fill_in 'Email', with: "old_money99@gmail.com"
+    click_button 'Submit Changes'
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
+    expect(page).to have_content("Name can't be blank")
+
+    expect(find_field('Name').value).to eq "Richy Rich"
+    expect(find_field('Address').value).to eq "102 Main St"
+    expect(find_field('City').value).to eq "NY"
+    expect(find_field('State').value).to eq "New York"
+    expect(find_field('Zip').value).to eq "10221"
+    expect(find_field('Email').value).to eq "young_money99@gmail.com"
+
+    fill_in 'Name', with: " "
+    fill_in 'Address', with: " "
+    click_button 'Submit Changes'
+    expect(page).to have_content("Name can't be blank and Address can't be blank")
+  end
+
+  it "Wont let me use existing email for updating user profile." do
+    visit '/admin/users'
+
+    within "#users-#{@user_1.id}" do
+      click_link "Edit Profile"
+    end
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
+
+    fill_in 'Email', with: "alice_in_the_sky@gmail.com"
+    click_button 'Submit Changes'
+
+    expect(current_path).to eq("/admin/users/#{@user_1.id}/edit")
+    expect(page).to have_content('Email has already been taken')
+
+    expect(find_field('Name').value).to eq "Richy Rich"
+    expect(find_field('Address').value).to eq "102 Main St"
+    expect(find_field('City').value).to eq "NY"
+    expect(find_field('State').value).to eq "New York"
+    expect(find_field('Zip').value).to eq "10221"
+    expect(find_field('Email').value).to eq "young_money99@gmail.com"
   end
 end
