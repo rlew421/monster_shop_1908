@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :new, :create]
   end
 
-  resources :items, except: [:new] do 
+  resources :items, except: [:new] do
     resources :reviews, only: [:new, :create]
   end
 
@@ -51,6 +51,9 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#show'
     get '/merchants/:merchant_id', to: 'merchants#show'
     patch '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
+
+    get '/users/:user_id/enable', to: 'users#account_activate'
+    get '/users/:user_id/disable', to: 'users#account_activate'
   end
 
   scope :admin do
@@ -73,4 +76,5 @@ Rails.application.routes.draw do
     get '/item_orders/:item_order_id/fulfill', to: 'item_orders#fulfill'
 
   end
+
 end
