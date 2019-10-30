@@ -40,7 +40,6 @@ describe Item, type: :model do
       expect(top_three).to eq([@review_1,@review_2,@review_5])
       expect(bottom_three).to eq([@review_3,@review_4,@review_5])
     end
-
     it 'no orders' do
       expect(@chain.no_orders?).to eq(true)
       user = User.create(name: 'Patti', address: '953 Sunshine Ave', city: 'Honolulu', state: 'Hawaii', zip: '96701', email: 'pattimonkey34@gmail.com', password: 'banana')

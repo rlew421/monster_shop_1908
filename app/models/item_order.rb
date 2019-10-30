@@ -5,16 +5,18 @@ class ItemOrder < ApplicationRecord
   belongs_to :order
   belongs_to :merchant
 
+  enum status: %w(pending fulfilled)
+
   def subtotal
     price * quantity
   end
 
-  def self.fulfillment(item_id, order_id)
-    self.where(item_id: item_id).where(order_id: order_id).update(status: 'fulfilled')
+  def fulfill
+    self.update_column(:status, 'fulfilled')
 
-    this_order = self.where(order_id: order_id)
-    if this_order.all?{|item_order| item_order[:status] == 'fulfilled'}
-      Order.fulfill(order_id)
+    this_order = Order.find(self.order_id)
+    if this_order.item_orders.all?{|item_order| item_order[:status] == 'fulfilled' }
+      Order.fulfill(this_order.id)
     end
   end
 end

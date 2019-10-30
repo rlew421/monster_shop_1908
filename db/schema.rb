@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20191028220238) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "pending"
+    t.integer "status", default: 0
     t.bigint "merchant_id"
     t.index ["item_id"], name: "index_item_orders_on_item_id"
     t.index ["merchant_id"], name: "index_item_orders_on_merchant_id"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20191028220238) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.integer "price"
+    t.float "price"
     t.string "image"
     t.boolean "active?", default: true
     t.integer "inventory"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20191028220238) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.string "status", default: "pending"
+    t.integer "status", default: 0
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

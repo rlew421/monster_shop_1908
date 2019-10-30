@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :new, :create]
   end
 
-  resources :items, except: [:new, :create] do
+  resources :items, except: [:new] do 
     resources :reviews, only: [:new, :create]
   end
 
@@ -18,10 +18,6 @@ Rails.application.routes.draw do
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
   patch "/cart/:item_id/:increment_decrement", to: "cart#increment_decrement"
-
-  get "/orders/new", to: "orders#new"
-  post "/orders", to: "orders#create"
-  # get "/orders/:id", to: "orders#show"
 
   delete '/cancel/:order_id', to: 'orders#destroy'
 
@@ -41,10 +37,9 @@ Rails.application.routes.draw do
   patch '/profile/:user_id/password', to: 'users#update'
 
   namespace :admin do
-    get '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
     get '/orders/:order_id/ship', to: 'orders#ship'
     get '/users/:user_id', to: 'users#show'
-    get '/users', to: 'dashboard#index'
+    get '/users', to: 'users#index'
     get '/users/:user_id', to: 'users#show'
     get '/users/:user_id/edit', to: 'users#edit'
     get '/users/:user_id/edit/password', to: 'users#edit'
@@ -55,6 +50,7 @@ Rails.application.routes.draw do
     patch '/users/:user_id/upgrade', to: 'users#upgrade'
     get '/', to: 'dashboard#show'
     get '/merchants/:merchant_id', to: 'merchants#show'
+    patch '/merchants/:merchant_id/update_status', to: 'merchants#update_status'
   end
 
   scope :admin do
@@ -69,7 +65,12 @@ Rails.application.routes.draw do
     delete '/items/:item_id', to: 'items#destroy'
     get '/items/new', to: 'items#new'
     post '/items', to: 'items#create'
+
     get '/items/:item_id/edit', to: 'items#edit'
     patch '/items/:item_id', to: 'items#update'
+
+    get '/orders/:order_id', to: 'orders#show'
+    get '/item_orders/:item_order_id/fulfill', to: 'item_orders#fulfill'
+
   end
 end

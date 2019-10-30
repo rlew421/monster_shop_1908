@@ -21,9 +21,9 @@ describe User do
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       user = User.create(name: 'Joey', address: '76 Pizza Place', city: 'Brooklyn', state: 'New York', zip: '10231', email: 'estelles_best_actor@gmail.com', password: 'letseat')
 
-    expect(user.role).to eq("default")
-    user.role_upgrade(meg.id, 1)
-    expect(user.role).to eq("merchant_employee")
+      expect(user.role).to eq("default")
+      user.role_upgrade(meg.id, 1)
+      expect(user.role).to eq("merchant_employee")
 
     end
   end

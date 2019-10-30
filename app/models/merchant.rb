@@ -1,4 +1,4 @@
-class Merchant <ApplicationRecord
+class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_orders, through: :items
   has_many :users
@@ -11,6 +11,17 @@ class Merchant <ApplicationRecord
                         :zip
   validates :zip, format: { with: /\d{5}/ }
 
+  def enabled?
+    self.status == 'enabled'
+  end
+
+  def enable
+    self.update_column(:status, 'enabled')
+  end
+
+  def disable
+    self.update_column(:status, 'disabled')
+  end
 
   def no_orders?
     item_orders.empty?
