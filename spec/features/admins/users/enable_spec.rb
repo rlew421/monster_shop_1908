@@ -77,5 +77,4 @@ describe 'admin can disable a user account' do
 
     expect(page).to_not have_css("#order-#{@order_1.id}")
   end
-
 end

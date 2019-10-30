@@ -6,7 +6,4 @@ class Admin::OrdersController < Admin::BaseController
 
     redirect_to '/admin'
   end
-
-
-
 end
