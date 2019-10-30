@@ -25,7 +25,7 @@ RSpec.describe "merchant edits an item" do
     expect(current_path).to eq("/merchant/items/#{@chai_latte.id}/edit")
     expect(find_field('Name').value).to eq "#{@chai_latte.name}"
     expect(find_field('Description').value).to eq "#{@chai_latte.description}"
-    expect(find_field('Price').value).to eq "$4.00"
+    expect(find_field('Price').value).to eq "$4.50"
     expect(find_field('Image').value).to eq("https://i.imgur.com/G5powzX.jpg")
     expect(find_field('Inventory').value).to eq '10'
 
