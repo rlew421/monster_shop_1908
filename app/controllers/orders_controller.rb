@@ -1,7 +1,7 @@
 class OrdersController <ApplicationController
 
   def index
-    @orders = Order.where(user_id: session[:user_id])
+    @orders = Order.where(user_id: session[:user_id]).joins(:user).where("users.is_active = true")
   end
 
   def new

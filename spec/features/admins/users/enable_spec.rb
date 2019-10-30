@@ -31,7 +31,7 @@ describe 'admin can disable a user account' do
     expect(current_path).to eq('/login')
     expect(page).to have_content('Unable to login. Your account has been deactivated.')
   end
-  it 'from user index page admin can click to enable users not disabled' do
+  it 'from user index page admin can click to enable users not disabled and see stats' do
 
     visit '/'
     click_link 'Login'
@@ -72,6 +72,9 @@ describe 'admin can disable a user account' do
     expect(page).to have_content("Welcome, Richy Rich! You are logged in.")
 
     expect(@pawty_city.distinct_cities).to include('Denver')
-  end
 
+    visit '/orders'
+
+    expect(page).to_not have_css("#order-#{@order_1.id}")
+  end
 end
